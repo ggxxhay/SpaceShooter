@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceShooterProject", "SpaceShooterProject.csproj", "{151C1542-D201-E775-AD1C-0DAFF8B48402}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceShooterProject.Editor", "SpaceShooterProject.Editor.csproj", "{3133BE82-3EB1-8FC6-B36D-19977EDAA9C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{151C1542-D201-E775-AD1C-0DAFF8B48402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151C1542-D201-E775-AD1C-0DAFF8B48402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151C1542-D201-E775-AD1C-0DAFF8B48402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151C1542-D201-E775-AD1C-0DAFF8B48402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3133BE82-3EB1-8FC6-B36D-19977EDAA9C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3133BE82-3EB1-8FC6-B36D-19977EDAA9C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3133BE82-3EB1-8FC6-B36D-19977EDAA9C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3133BE82-3EB1-8FC6-B36D-19977EDAA9C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
