@@ -245,8 +245,13 @@
     <Compile Include="Assets\_Complete-Game\Scripts\Done_RandomRotator.cs" />
     <Compile Include="Assets\_Complete-Game\Scripts\Done_WeaponController.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Background.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\Bullet.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\DestroyArea.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\Enemy.cs" />
     <Compile Include="Assets\_MyGame\Scripts\LevelManager.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\Player.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Setting.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\SpaceShip.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
