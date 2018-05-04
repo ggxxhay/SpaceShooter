@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-    SpaceShip spaceShip;
+    public float shotDelay;
+    public GameObject bullet;
 
 	// Use this for initialization
 	IEnumerator Start () {
-        spaceShip = GetComponent<SpaceShip>();
         while (true)
         {
-
+            Instantiate(bullet, transform.position, transform.rotation);
+            yield return new WaitForSeconds(shotDelay);
         }
 	}
 	

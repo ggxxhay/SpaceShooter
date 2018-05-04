@@ -2,12 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Boundary
+{
+
+    public float xMax = 5.2f, xMin = -5.2f, zMax = 5f, zMin = -9.15f;
+
+}
+
 public class Player : MonoBehaviour {
 
     public float shotDelay;
     public float speed = 10;
-    public float xMax = 5.2f, xMin = -5.2f, zMax = 5f, zMin = -9.15f;
-    SpaceShip spaceShip;
+    public Boundary boundary;
+    public GameObject explosion;
+
+    // Tilt when playerShip rotating
+    public float tilt;
 
     // Time to be enale to shoot the next shot
     public float nextFire;
@@ -21,7 +32,7 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     private void Start()
     {
-        spaceShip = GetComponent<SpaceShip>();
+        //boundary = Get
     }
 
     // Update is called once per frame
@@ -57,9 +68,26 @@ public class Player : MonoBehaviour {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(moveHorizontal, 0, moveVertical).normalized;
+        GetComponent<Rigidbody>().velocity = direction * speed;
         Vector3 pos = transform.position;
-        pos += direction * speed * Time.deltaTime;
-        pos = new Vector3(Mathf.Clamp(pos.x, xMin, xMax), 0, Mathf.Clamp(pos.z, zMin, zMax));
-        transform.position = pos;
+
+        // Limit the position of Player
+        GetComponent<Rigidbody>().position = new Vector3
+            (Mathf.Clamp(pos.x, boundary.xMin, boundary.xMax), 
+            0, 
+            Mathf.Clamp(pos.z, boundary.zMin, boundary.zMax));
+
+        // Rotate Player while moving
+        GetComponent<Rigidbody>().rotation = Quaternion.Euler(0f, 0f, GetComponent<Rigidbody>().velocity.x * -tilt);
+    }
+
+    // Destroy when hit
+    private void OnTriggerEnter(Collider other)
+    {
+        if (LayerMask.LayerToName(other.gameObject.layer) == "EnemyBullet") {
+            Instantiate(explosion, transform.position, transform.rotation);
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+        }
     }
 }
