@@ -249,6 +249,7 @@
     <Compile Include="Assets\_MyGame\Scripts\DestroyArea.cs" />
     <Compile Include="Assets\_MyGame\Scripts\DestroyByContact.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Enemy.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\Hazards.cs" />
     <Compile Include="Assets\_MyGame\Scripts\LevelManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Mover.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Player.cs" />
