@@ -249,9 +249,12 @@
     <Compile Include="Assets\_MyGame\Scripts\DestroyArea.cs" />
     <Compile Include="Assets\_MyGame\Scripts\DestroyByContact.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Enemy.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\GameController.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\Hazards.cs" />
     <Compile Include="Assets\_MyGame\Scripts\LevelManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Mover.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Player.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\PlayerBullet.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Setting.cs" />
     <Compile Include="Assets\_MyGame\Scripts\SpaceShip.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
