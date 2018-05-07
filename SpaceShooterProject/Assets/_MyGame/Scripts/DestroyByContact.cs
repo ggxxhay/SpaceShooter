@@ -7,6 +7,8 @@ public class DestroyByContact : MonoBehaviour
 
     public GameObject explosion;
     public GameObject playerExplosion;
+    public GameObject gift;
+
     Hazards hazards;
 
     private void Start()
@@ -42,6 +44,10 @@ public class DestroyByContact : MonoBehaviour
 
         if (hazards.hp <= 0)
         {
+            if (gameObject.tag == "Boss" || Random.Range(1, 5) == 1)
+            {
+                Instantiate(gift, transform.position, Quaternion.Euler(90, 0, 0));
+            }
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
             //Destroy(explosion);

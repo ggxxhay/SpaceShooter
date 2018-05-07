@@ -9,6 +9,13 @@ public class Mover : MonoBehaviour {
 	// Move the object
     private void Start()
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        if(gameObject.tag == "Gift")
+        {
+            GetComponent<Rigidbody>().velocity = transform.up * speed;
+        }
+        else
+        {
+            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        }
     }
 }
