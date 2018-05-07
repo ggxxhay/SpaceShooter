@@ -10,7 +10,8 @@ public class Boundary
 
 }
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     public float shotDelay;
     public float speed = 10;
@@ -36,7 +37,8 @@ public class Player : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         Move();
 
         // Shooting
@@ -73,8 +75,8 @@ public class Player : MonoBehaviour {
 
         // Limit the position of Player
         GetComponent<Rigidbody>().position = new Vector3
-            (Mathf.Clamp(pos.x, boundary.xMin, boundary.xMax), 
-            0, 
+            (Mathf.Clamp(pos.x, boundary.xMin, boundary.xMax),
+            0,
             Mathf.Clamp(pos.z, boundary.zMin, boundary.zMax));
 
         // Rotate Player while moving
@@ -84,9 +86,24 @@ public class Player : MonoBehaviour {
     // Destroy when hit
     private void OnTriggerEnter(Collider other)
     {
-        if (LayerMask.LayerToName(other.gameObject.layer) == "EnemyBullet") {
+        string layer = LayerMask.LayerToName(other.gameObject.layer);
+        if (layer == "EnemyBullet")
+        {
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
+            Destroy(other.gameObject);
+            //Destroy(explosion);
+        }
+        else if (layer == "Gift")
+        {
+            if (bulletType >= bullets.Length - 1)
+            {
+                bullets[bulletType].GetComponent<PlayerBullet>().damage++;
+            }
+            else
+            {
+                bulletType++;
+            }
             Destroy(other.gameObject);
         }
     }
