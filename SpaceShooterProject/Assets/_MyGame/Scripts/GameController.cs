@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
         {
             currentWave++;
 
+            // Each 5 waves, a boss wave appear
             if (currentWave % 5 == 0)
             {
                 Hazards h = boss.transform.GetComponent<Hazards>();
@@ -49,6 +50,8 @@ public class GameController : MonoBehaviour
                 hazardsInWave = currentWave * 5;
 
                 //hazardsAlive = hazardsInWave;
+
+                // Set health and point for hazards
                 foreach (var gameObject in hazards)
                 {
                     Hazards h = gameObject.transform.GetComponent<Hazards>();

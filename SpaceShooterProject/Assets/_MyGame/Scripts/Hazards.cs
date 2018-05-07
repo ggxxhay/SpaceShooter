@@ -11,6 +11,8 @@ public class Hazards : MonoBehaviour
     // Hazards kill point
     public int point;
 
+    public GameObject gift;
+
     //GameController gameController;
 
     // Use this for initialization
@@ -31,4 +33,6 @@ public class Hazards : MonoBehaviour
     void Update()
     {
     }
+    
+    
 }
