@@ -1,22 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Boundary
 {
-
     public float xMax = 5.2f, xMin = -5.2f, zMax = 5f, zMin = -9.15f;
-
 }
 
 public class Player : MonoBehaviour
 {
-
     public float shotDelay;
     public float speed = 10;
     public Boundary boundary;
     public GameObject explosion;
+    public GameObject scoreUI;
+
+    // Text to display when game over
+    public GameObject[] gameOverTexts;
+
+    
 
     // Tilt when playerShip rotating
     public float tilt;
@@ -34,6 +39,10 @@ public class Player : MonoBehaviour
     private void Start()
     {
         //boundary = Get
+        foreach (var t in gameOverTexts)
+        {
+            t.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -106,5 +115,24 @@ public class Player : MonoBehaviour
             }
             Destroy(other.gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        transform.GetComponent<HighScore>().Save();
+        foreach(var t in gameOverTexts)
+        {
+            t.SetActive(true);
+        }
+        RectTransform scoreUIRectTransform = scoreUI.GetComponent<RectTransform>();
+        scoreUIRectTransform.anchoredPosition = new Vector2(0, 0);
+        scoreUIRectTransform.sizeDelta = new Vector2(400, 110);
+        scoreUI.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+        scoreUI.GetComponent<Text>().fontSize = 60;
+    }
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }

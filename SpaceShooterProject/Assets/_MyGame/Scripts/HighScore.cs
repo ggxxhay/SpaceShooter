@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HighScore : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class HighScore : MonoBehaviour
     // Used to highScores data
     private int[] highScoresArray;
 
+    // Texts to display
+    public Text[] displayTexts;
+
+    // Define if the highScoreArray is descending or not
+    private bool isDescending;
+
     // Use this for initialization
     void Start()
     {
@@ -22,32 +29,47 @@ public class HighScore : MonoBehaviour
         totalScoreKey = "total";
         highScoresArray = new int[5];
         GetHighScores();
+        DisplayHighScores();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Display high scores of players
+    private void DisplayHighScores()
     {
+        // Sort by descending
+        if (!isDescending)
+        {
+            Array.Reverse(highScoresArray);
+            isDescending = true;
+        }
 
+        for (int i = 0; i < displayTexts.Length; i++)
+        {
+            displayTexts[i].text = "Top " + (i + 1) + ": " + highScoresArray[i].ToString();
+        }
     }
 
     // Get highScores data
     private void GetHighScores()
     {
-        for (int i = 0; i < highScoresKeys.Length - 1; i++)
+        for (int i = 0; i < highScoresKeys.Length; i++)
         {
-            if (PlayerPrefs.HasKey(highScoresKeys[i]))
-            {
-                highScoresArray[i] = PlayerPrefs.GetInt(highScoresKeys[i]);
-            }
-            else
-            {
-                highScoresArray[i] = 0;
-            }
+            //if (PlayerPrefs.HasKey(highScoresKeys[i]))
+            //{
+            //    highScoresArray[i] = PlayerPrefs.GetInt(highScoresKeys[i]);
+            //}
+            //else
+            //{
+            //    highScoresArray[i] = 0;
+            //}
+            highScoresArray[i] = PlayerPrefs.GetInt(highScoresKeys[i]);
         }
 
-        // Sort array descending
         Array.Sort(highScoresArray);
-        Array.Reverse(highScoresArray);
+        isDescending = false;
+        foreach (int i in highScoresArray)
+        {
+            print(i);
+        }
     }
 
 
@@ -58,10 +80,18 @@ public class HighScore : MonoBehaviour
         // Save total player score
         PlayerPrefs.SetInt(totalScoreKey, PlayerPrefs.GetInt(totalScoreKey) + score);
 
+        // Sort by ascending
+        if (isDescending)
+        {
+            Array.Sort(highScoresArray);
+            isDescending = false;
+        }
+
         // Update highScores
         for (int i = 0; i < highScoresArray.Length; i++)
         {
-            if (highScoresArray[i] < score)
+            print(highScoresArray[i].ToString() + " --- " + score.ToString());
+            if (highScoresArray[i] <= score)
             {
                 highScoresArray[i] = score;
                 break;
@@ -71,8 +101,10 @@ public class HighScore : MonoBehaviour
         // Save highScores
         for (int i = 0; i < highScoresKeys.Length; i++)
         {
+            print(highScoresArray[i] + " - saved");
             PlayerPrefs.SetInt(highScoresKeys[i], highScoresArray[i]);
-            PlayerPrefs.Save();
         }
+
+        PlayerPrefs.Save();
     }
 }
