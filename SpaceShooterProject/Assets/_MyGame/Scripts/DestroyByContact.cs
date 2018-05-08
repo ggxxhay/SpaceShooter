@@ -44,10 +44,15 @@ public class DestroyByContact : MonoBehaviour
 
         if (hazards.hp <= 0)
         {
+            // Add score
+            FindObjectOfType<Score>().AddPoint(gameObject.GetComponent<Hazards>().point);
+
+            // Create gift for player
             if (gameObject.tag == "Boss" || Random.Range(1, 5) == 1)
             {
                 Instantiate(gift, transform.position, Quaternion.Euler(90, 0, 0));
             }
+
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
             //Destroy(explosion);
