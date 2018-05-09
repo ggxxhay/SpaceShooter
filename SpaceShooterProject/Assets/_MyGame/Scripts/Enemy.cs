@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
     // Shoot bullet
     void Shoot(Transform transform)
     {
+        GetComponent<AudioSource>().Play();
         Instantiate(bullet, transform.position, transform.rotation);
     }
 

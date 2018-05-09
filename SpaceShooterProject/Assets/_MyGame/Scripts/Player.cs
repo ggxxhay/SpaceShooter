@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         // Shooting
         if (Input.GetButton("Fire1") && Time.time >= nextFire)
         {
+            GetComponent<AudioSource>().Play();
             Instantiate(bullets[bulletType], transform.position, transform.rotation);
             nextFire = Time.time + shotDelay;
         }
