@@ -4,14 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class Keys
+{
+    public string totalScoreKey = "total";
+}
+
 public class HighScore : MonoBehaviour
 {
+
+    public Keys keys;
 
     // Keys of top 5 highScore
     private string[] highScoresKeys;
 
     // Total score to use in shop
-    private string totalScoreKey;
+    //private string totalScoreKey = "total";
 
     // Used to highScores data
     private int[] highScoresArray;
@@ -26,7 +34,7 @@ public class HighScore : MonoBehaviour
     void Start()
     {
         highScoresKeys = new string[] { "h1", "h2", "h3", "h4", "h5" };
-        totalScoreKey = "total";
+        //totalScoreKey = "total";
         highScoresArray = new int[5];
         GetHighScores();
         DisplayHighScores();
@@ -78,7 +86,7 @@ public class HighScore : MonoBehaviour
         int score = FindObjectOfType<Score>().GetScore();
 
         // Save total player score
-        PlayerPrefs.SetInt(totalScoreKey, PlayerPrefs.GetInt(totalScoreKey) + score);
+        PlayerPrefs.SetInt(keys.totalScoreKey, PlayerPrefs.GetInt(keys.totalScoreKey) + score);
 
         // Sort by ascending
         if (isDescending)

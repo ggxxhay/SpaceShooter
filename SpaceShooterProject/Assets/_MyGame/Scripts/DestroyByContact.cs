@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class DestroyByContact : MonoBehaviour
 {
@@ -56,6 +57,18 @@ public class DestroyByContact : MonoBehaviour
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
             //Destroy(explosion);
+
+            // Test achievement
+            //IAchievement achievement = Social.CreateAchievement();
+            //achievement.id = "Achievement01";
+            //achievement.percentCompleted = 100.0;
+            //achievement.ReportProgress(result =>
+            //{
+            //    if (result)
+            //        Debug.Log("Successfully reported progress - " + achievement.id + " - " + achievement.percentCompleted);
+            //    else
+            //        Debug.Log("Failed to report progress");
+            //});
         }
     }
 }
