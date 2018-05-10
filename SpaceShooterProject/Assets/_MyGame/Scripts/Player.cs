@@ -21,8 +21,6 @@ public class Player : MonoBehaviour
     // Text to display when game over
     public GameObject[] gameOverTexts;
 
-    
-
     // Tilt when playerShip rotating
     public float tilt;
 
@@ -38,11 +36,14 @@ public class Player : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        //boundary = Get
+        // Hide game over texts
         foreach (var t in gameOverTexts)
         {
             t.SetActive(false);
         }
+
+        // Set skin for player
+        gameObject.GetComponent<Renderer>().material.color = SkinColor.playerSkinColor;
     }
 
     // Update is called once per frame
@@ -121,7 +122,7 @@ public class Player : MonoBehaviour
     private void OnDestroy()
     {
         transform.GetComponent<HighScore>().Save();
-        foreach(var t in gameOverTexts)
+        foreach (var t in gameOverTexts)
         {
             t.SetActive(true);
         }
