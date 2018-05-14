@@ -37,8 +37,6 @@ public class ShopManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        print("Start shop menu");
-
         priceKeys = new string[] { "price0", "price1", "price2", "price3", "price4" };
         currentSkinIndexKey = "skinIndex";
 

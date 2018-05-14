@@ -1,11 +1,16 @@
-﻿using GooglePlayGames;
+﻿//using GooglePlayGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
-using UnityEngine.SocialPlatforms.GameCenter;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class Leaderboard
+{
+    static public ILeaderboard leaderboard;
+}
 
 public class LevelManager : MonoBehaviour
 {
@@ -21,6 +26,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        PlayerPrefs.DeleteKey(Keys.enemyKilledKey);
         //menuRect = GameObject.Find("Menu").GetComponent<RectTransform>();
         mainMenu = GameObject.Find("Menu");
         backButton = GameObject.Find("Back");
@@ -30,7 +36,8 @@ public class LevelManager : MonoBehaviour
         otherMenus = new GameObject[] {
             GameObject.Find("SettingMenu"),
             GameObject.Find("HighScoreMenu"),
-            GameObject.Find("ShopMenu")
+            GameObject.Find("ShopMenu"),
+            GameObject.Find("AchievementMenu")
         };
 
         foreach (var menu in otherMenus)
@@ -38,14 +45,7 @@ public class LevelManager : MonoBehaviour
             menu.SetActive(false);
         }
 
-        // Play game services
-        //if (once)
-        //{
-        //    PlayGamesPlatform.Activate();
-        //    once = false;
-        //}
-        //Authenticate();
-        //CreateAchievement();
+        Authenticate();
     }
 
     // Authenticate local user
@@ -64,29 +64,6 @@ public class LevelManager : MonoBehaviour
             else
                 Debug.Log("Authentication failed");
         });
-    }
-
-    // 
-    public void CreateAchievement()
-    {
-        for (int i = 1; i <= 10; i++)
-        {
-            IAchievement achievement = Social.CreateAchievement();
-            achievement.id = "Achievement0" + i.ToString();
-            achievement.percentCompleted = 100;
-            achievement.ReportProgress(success =>
-            {
-                if (success)
-                {
-                    Debug.Log("Success report!");
-                }
-                else
-                {
-                    Debug.Log("Error report!");
-                }
-                Debug.Log("--- " + achievement.id + " ---");
-            });
-        }
     }
 
     // Change Scene
@@ -131,7 +108,13 @@ public class LevelManager : MonoBehaviour
                 // Show achievement
                 if (menuName == "AchievementMenu")
                 {
-                    Social.ShowAchievementsUI();
+                    GetComponent<AchievementManager>().LoadAchievement();
+                }
+
+                // Show highScores
+                if(menuName == "HighScoreMenu")
+                {
+                    GetComponent<LeaderboardManager>().ShowScore();
                 }
 
                 break;
@@ -147,7 +130,7 @@ public class LevelManager : MonoBehaviour
         mainMenu.SetActive(true);
 
         // Save prices and skin color when out shop menu
-        if(menuTemp.name == "ShopMenu")
+        if (menuTemp.name == "ShopMenu")
         {
             FindObjectOfType<ShopManager>().SaveInfo();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -36,6 +37,28 @@ public class Player : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        Social.LoadAchievements(achievements =>
+        {
+            if (achievements.Length > 0)
+            {
+                Debug.Log("Got " + achievements.Length + " achievement instances");
+                foreach (IAchievement achievement in achievements)
+                {
+                    string myAchievements = "My achievements:\n";
+                    myAchievements += "\t" +
+                        achievement.id + " " +
+                        achievement.percentCompleted + " " +
+                        achievement.completed + " " +
+                        achievement.lastReportedDate + "\n";
+                    Debug.Log(myAchievements);
+                }
+            }
+            else
+                Debug.Log("No achievements returned");
+        });
+
+        Social.ShowAchievementsUI();
+
         // Hide game over texts
         foreach (var t in gameOverTexts)
         {
@@ -121,11 +144,16 @@ public class Player : MonoBehaviour
 
     private void OnDestroy()
     {
-        transform.GetComponent<HighScore>().Save();
+        //transform.GetComponent<HighScore>().Save();
+
+        ReportScore();
+
         foreach (var t in gameOverTexts)
         {
             t.SetActive(true);
         }
+
+        // Change position and font properties of score display text
         RectTransform scoreUIRectTransform = scoreUI.GetComponent<RectTransform>();
         scoreUIRectTransform.anchoredPosition = new Vector2(0, 0);
         scoreUIRectTransform.sizeDelta = new Vector2(400, 110);
@@ -136,5 +164,20 @@ public class Player : MonoBehaviour
     public void ToMainMenu()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    void ReportScore()
+    {
+        Social.ReportScore(FindObjectOfType<Score>().GetScore(), "Leaderboard01", result =>
+        {
+            if (result)
+            {
+                print("Score reported successfully!");
+            }
+            else
+            {
+                print("Cannot report score");
+            }
+        });
     }
 }

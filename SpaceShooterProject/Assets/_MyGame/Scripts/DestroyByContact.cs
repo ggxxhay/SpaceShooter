@@ -10,11 +10,15 @@ public class DestroyByContact : MonoBehaviour
     public GameObject playerExplosion;
     public GameObject gift;
 
+    public int enemyKilled;
+
     Hazards hazards;
 
     private void Start()
     {
         hazards = GetComponent<Hazards>();
+
+        enemyKilled = PlayerPrefs.GetInt(Keys.enemyKilledKey);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,6 +47,13 @@ public class DestroyByContact : MonoBehaviour
         Destroy(other.gameObject);
         //Destroy(playerExplosion);
 
+        EnemyDead();
+        
+    }
+
+    // Enemy health reduce to 0
+    private void EnemyDead()
+    {
         if (hazards.hp <= 0)
         {
             // Add score
@@ -54,21 +65,43 @@ public class DestroyByContact : MonoBehaviour
                 Instantiate(gift, transform.position, Quaternion.Euler(90, 0, 0));
             }
 
+            // Create Explosion
             Instantiate(explosion, transform.position, transform.rotation);
-            Destroy(gameObject);
-            //Destroy(explosion);
 
-            // Test achievement
-            //IAchievement achievement = Social.CreateAchievement();
-            //achievement.id = "Achievement01";
-            //achievement.percentCompleted = 100.0;
-            //achievement.ReportProgress(result =>
-            //{
-            //    if (result)
-            //        Debug.Log("Successfully reported progress - " + achievement.id + " - " + achievement.percentCompleted);
-            //    else
-            //        Debug.Log("Failed to report progress");
-            //});
+            Destroy(gameObject);
+
+            // Count on enemy killed
+            enemyKilled++;
+            PlayerPrefs.SetInt(Keys.enemyKilledKey, enemyKilled);
+
+            if (enemyKilled == 1)
+            {
+                ReportAchievement("Achievement01");
+            }
+            if (enemyKilled == 10)
+            {
+                ReportAchievement("Achievement02");
+            }
+            if (enemyKilled == 100)
+            {
+                ReportAchievement("Achievement03");
+            }
         }
+    }
+
+    private void ReportAchievement(string id)
+    {
+        Social.ReportProgress(id, 100, success =>
+        {
+            if (success)
+            {
+                print("Success report: " + id);
+            }
+            else
+            {
+                print("Report failed: " + id);
+            }
+        });
+        PlayerPrefs.SetInt(id, 100);
     }
 }

@@ -244,6 +244,7 @@
     <Compile Include="Assets\_Complete-Game\Scripts\Done_PlayerController.cs" />
     <Compile Include="Assets\_Complete-Game\Scripts\Done_RandomRotator.cs" />
     <Compile Include="Assets\_Complete-Game\Scripts\Done_WeaponController.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\AchievementManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Asteroid.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Background.cs" />
     <Compile Include="Assets\_MyGame\Scripts\DestroyArea.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Assets\_MyGame\Scripts\GameController.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Hazards.cs" />
     <Compile Include="Assets\_MyGame\Scripts\HighScore.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\LeaderboardManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\LevelManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Mover.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Player.cs" />
@@ -442,6 +444,10 @@
     <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
     <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
     <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
+    <Compile Include="Assets\SimpleAndroidNotifications\NotificationExample.cs" />
+    <Compile Include="Assets\SimpleAndroidNotifications\NotificationIcon.cs" />
+    <Compile Include="Assets\SimpleAndroidNotifications\NotificationManager.cs" />
+    <Compile Include="Assets\SimpleAndroidNotifications\NotificationParams.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
   </ItemGroup>
   <ItemGroup>

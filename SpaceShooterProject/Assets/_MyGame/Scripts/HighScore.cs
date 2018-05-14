@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Keys
 {
     public string totalScoreKey = "total";
+    static public string enemyKilledKey = "enemykilled";
 }
 
 public class HighScore : MonoBehaviour
@@ -74,10 +75,10 @@ public class HighScore : MonoBehaviour
 
         Array.Sort(highScoresArray);
         isDescending = false;
-        foreach (int i in highScoresArray)
-        {
-            print(i);
-        }
+        //foreach (int i in highScoresArray)
+        //{
+        //    print(i);
+        //}
     }
 
 
@@ -98,7 +99,7 @@ public class HighScore : MonoBehaviour
         // Update highScores
         for (int i = 0; i < highScoresArray.Length; i++)
         {
-            print(highScoresArray[i].ToString() + " --- " + score.ToString());
+            //print(highScoresArray[i].ToString() + " --- " + score.ToString());
             if (highScoresArray[i] <= score)
             {
                 highScoresArray[i] = score;
