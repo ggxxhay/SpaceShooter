@@ -254,7 +254,6 @@
     <Compile Include="Assets\_MyGame\Scripts\GameController.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Hazards.cs" />
     <Compile Include="Assets\_MyGame\Scripts\HighScore.cs" />
-    <Compile Include="Assets\_MyGame\Scripts\LeaderboardManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\LevelManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Mover.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Player.cs" />
@@ -262,7 +261,6 @@
     <Compile Include="Assets\_MyGame\Scripts\Score.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Setting.cs" />
     <Compile Include="Assets\_MyGame\Scripts\ShopManager.cs" />
-    <Compile Include="Assets\_MyGame\Scripts\SpaceShip.cs" />
     <Compile Include="Assets\GooglePlayGames\BasicApi\Achievement.cs" />
     <Compile Include="Assets\GooglePlayGames\BasicApi\CommonStatusCodes.cs" />
     <Compile Include="Assets\GooglePlayGames\BasicApi\CommonTypes.cs" />

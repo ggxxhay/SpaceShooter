@@ -54,7 +54,7 @@ public class DestroyByContact : MonoBehaviour
     // Enemy health reduce to 0
     private void EnemyDead()
     {
-        if (hazards.hp <= 0)
+        if (hazards.hp <= 0 && FindObjectOfType<Player>() != null)
         {
             // Add score
             FindObjectOfType<Score>().AddPoint(gameObject.GetComponent<Hazards>().point);

@@ -1,9 +1,10 @@
 Android
 PlayerPath?
-D:/SpaceShooter.apk
+D:/SpaceShooter v4.apk
 SceneListBegin?
 Assets/_MyGame/Scenes/Menu.unity
 Assets/_MyGame/Scenes/MainGame.unity
+Assets/SimpleAndroidNotifications/DemoScene.unity
 SceneListEnd?
 ed38c81c134c5ef6179863ba412ba12c Assembly-CSharp.dll:.Hazards
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
@@ -53,7 +54,6 @@ f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SpaceShip
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
 49cd62a578efc0a599b810a2b66cd49c UnityEngine.UI.dll:UnityEngine.UI.Button
@@ -123,11 +123,13 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.LevelManager
+9b67b83d81add0a5fcb731496b734c62 Assembly-CSharp.dll:.LevelManager
 ca60dfd40465205ae76c6d3e60a7e88a Assembly-CSharp.dll:.Done_EvasiveManeuver
-5495fb72d07451bb19228c4d5e8ca6a6 Assembly-CSharp.dll:.HighScore
+beb58129bd23c878c3b6aed4be02a11a Assembly-CSharp.dll:.AchievementManager
+ed5a77eed99bb76ab974494162914451 Assembly-CSharp.dll:.HighScore
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Setting
-2d6aa69442263863152c2bfe6bfbf9bc Assembly-CSharp.dll:.ShopManager
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Assets.SimpleAndroidNotifications.NotificationExample
+d896d60a4586120de70df7c77692e91e Assembly-CSharp.dll:.ShopManager
 c37d1c326e418bcde90e97e4d0eb74c9 Assembly-CSharp.dll:.Done_DestroyByContact
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -143,7 +145,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
-f201b35fe85d41e1c2b2f1a4418a746a Assembly-CSharp.dll:.DestroyByContact
+4640b82ace33c8f1765f5127eb2a097e Assembly-CSharp.dll:.DestroyByContact
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 96d0fbde9fd209878a0a291f82c9bcdd UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
 64eb32cc721b1cc68a91ed57461e188c UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.RemoteTestResultSender
@@ -156,7 +158,7 @@ e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEng
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 67a5f2c97205d2e41a8ed7c7ce898f6e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSoundfieldExtension
 67a5f2c97205d2e41a8ed7c7ce898f6e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSourceExtension
-6f960f3da72ffe40b9b7b80f2e336f95 Assembly-CSharp.dll:.GameController
+90fea22433fffa7a7d26993711f88c3a Assembly-CSharp.dll:.GameController
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Done_DestroyByBoundary
 25365ec66501498d52d11616553a9368 Assembly-CSharp.dll:.Readme
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
@@ -177,5 +179,3 @@ ce09cb02e2f857c8aa562f2552261f90 Assembly-CSharp.dll:.PlayerBullet
 4c4e5bbdfb8b8f4d80c5ad7176b30d43 Assembly-CSharp.dll:.Asteroid
 c55f73f8f1562b6824faf4063dd4b0fd Assembly-CSharp.dll:.Explosion
 a0dcef889bcbbdb0a398c4e8e4b8e14b Assembly-CSharp.dll:.Done_GameController
-a581b8e46069a1890de633391feeddcc Assembly-CSharp.dll:.LeaderboardManager
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Assets.SimpleAndroidNotifications.NotificationExample

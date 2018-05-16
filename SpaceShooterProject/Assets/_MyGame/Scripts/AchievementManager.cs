@@ -79,7 +79,5 @@ public class AchievementManager : MonoBehaviour
                 Debug.Log("No achievements returned");
             }
         });
-
-        Social.ShowAchievementsUI();
     }
 }

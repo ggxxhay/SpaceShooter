@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.SimpleAndroidNotifications
 {
@@ -48,6 +49,11 @@ namespace Assets.SimpleAndroidNotifications
         public void CancelAll()
         {
             NotificationManager.CancelAll();
+        }
+
+        public void ToMainMenu()
+        {
+            SceneManager.LoadScene("Menu");
         }
     }
 }

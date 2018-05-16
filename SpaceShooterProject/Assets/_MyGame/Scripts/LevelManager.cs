@@ -1,4 +1,5 @@
 ﻿//using GooglePlayGames;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,31 +15,27 @@ public class Leaderboard
 
 public class LevelManager : MonoBehaviour
 {
+    public GameObject[] otherMenus;
+
     // A temporary menu object
     private GameObject menuTemp;
 
     private GameObject mainMenu;
     private GameObject backButton;
 
-    private GameObject[] otherMenus;
-
     static private bool once = true;
 
     private void Start()
     {
-        PlayerPrefs.DeleteKey(Keys.enemyKilledKey);
-        //menuRect = GameObject.Find("Menu").GetComponent<RectTransform>();
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteKey(Keys.enemyKilledKey);
+
+        Assets.SimpleAndroidNotifications.NotificationManager.CancelAll();
+
         mainMenu = GameObject.Find("Menu");
         backButton = GameObject.Find("Back");
 
         backButton.SetActive(false);
-
-        otherMenus = new GameObject[] {
-            GameObject.Find("SettingMenu"),
-            GameObject.Find("HighScoreMenu"),
-            GameObject.Find("ShopMenu"),
-            GameObject.Find("AchievementMenu")
-        };
 
         foreach (var menu in otherMenus)
         {
@@ -46,6 +43,29 @@ public class LevelManager : MonoBehaviour
         }
 
         Authenticate();
+    }
+
+    private void Update()
+    {
+        Escape();
+    }
+
+    /// <summary>
+    /// Execution when escape button pressed
+    /// </summary>
+    public void Escape()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (mainMenu.activeSelf)
+            {
+                Quit();
+            }
+            else
+            {
+                ToMainMenu();
+            }
+        }
     }
 
     // Authenticate local user
@@ -66,15 +86,18 @@ public class LevelManager : MonoBehaviour
         });
     }
 
-    // Change Scene
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
-    // Exit Application
+    /// <summary>
+    /// Exit Application
+    /// </summary>
     public void Quit()
     {
+        Assets.SimpleAndroidNotifications.NotificationManager.
+            Send(TimeSpan.FromSeconds(10), "I miss you", "Long time no see. Please come back!", Color.blue);
         Application.Quit();
     }
 
@@ -114,7 +137,9 @@ public class LevelManager : MonoBehaviour
                 // Show highScores
                 if(menuName == "HighScoreMenu")
                 {
-                    GetComponent<LeaderboardManager>().ShowScore();
+                    //GetComponent<LeaderboardManager>().ShowScore();
+
+                    GetComponent<HighScore>().DisplayHighScores();
                 }
 
                 break;

@@ -11,15 +11,13 @@ public class SkinColor
 
 public class ShopManager : MonoBehaviour
 {
-    public Keys keys;
-    //public SkinColor skinColor;
-
     // Shopping variables
     public GameObject player;
     public Color[] skinColors;
-
-    private string[] priceKeys;
     public int[] pricesArray;
+
+    private string[] isBoughtKeys;
+    private int[] isBoughtArray;
 
     private string currentSkinIndexKey;
     public int currentSkinIndex;
@@ -29,26 +27,41 @@ public class ShopManager : MonoBehaviour
 
     GameObject buyButton;
     GameObject selectButton;
+
     Text priceUI;
-    
+    Text totalPointUI;
+
     // Player's saved point
     private int playerPoint;
 
     // Use this for initialization
     void Start()
     {
-        priceKeys = new string[] { "price0", "price1", "price2", "price3", "price4" };
+        //PlayerPrefs.DeleteAll();
+        isBoughtKeys = new string[] { "isBought1", "isBought2", "isBought3", "isBought4", "isBought5" };
+        pricesArray = new int[] { 0, 50, 60, 70, 80 };
+        isBoughtArray = new int[5];
+
         currentSkinIndexKey = "skinIndex";
 
         // Get player saved point
-        playerPoint = PlayerPrefs.GetInt(keys.totalScoreKey);
+        playerPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
 
         // Get current selected skin index
-        currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
-        //currentSkinSelected = currentSkinIndex;
+        //if (PlayerPrefs.HasKey(currentSkinIndexKey))
+        //{
+            currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
+        //}
+        //else
+        //{
+        //    currentSkinIndex = 0;
+        //}
+
+        currentSkinSelected = currentSkinIndex;
 
         priceUI = GameObject.Find("Price").GetComponent<Text>();
-        
+        totalPointUI = GameObject.Find("Point").GetComponent<Text>();
+
         ShopBegin();
     }
 
@@ -63,21 +76,39 @@ public class ShopManager : MonoBehaviour
         // Change player skin color
         player.GetComponent<Renderer>().material.color = skinColors[currentSkinIndex];
 
-        GetPrice();
+        GetBuyingInfo();
+        UpdatePrice();
         ChangeButtonStage();
 
-        Text point = GameObject.Find("Point").GetComponent<Text>();
-        //int playerPoint = PlayerPrefs.GetInt("total");
-
-        point.text = "Your point: " + playerPoint.ToString();
+        // Set point to point UI text
+        totalPointUI.text = "Your point: " + playerPoint.ToString();
     }
 
-    // Get saved prices info from PlayerPrefs
-    public void GetPrice()
+    // Get saved buy info from PlayerPrefs
+    public void GetBuyingInfo()
     {
         for (int i = 0; i < pricesArray.Length; i++)
         {
-            pricesArray[i] = PlayerPrefs.GetInt(priceKeys[i]);
+            //if (PlayerPrefs.HasKey(isBoughtKeys[i]))
+            //{
+                isBoughtArray[i] = PlayerPrefs.GetInt(isBoughtKeys[i]);
+            //}
+            //else
+            //{
+            //    isBoughtArray[i] = 0;
+            //}
+        }
+    }
+
+    // Update price as buying info
+    private void UpdatePrice()
+    {
+        for (int i = 0; i < isBoughtArray.Length; i++)
+        {
+            if (isBoughtArray[i] == 1)
+            {
+                pricesArray[i] = 0;
+            }
         }
     }
 
@@ -106,16 +137,15 @@ public class ShopManager : MonoBehaviour
     // Change buttons' stage: buy and select buttons
     public void ChangeButtonStage()
     {
-        if (pricesArray[currentSkinIndex]==0)
+        if (pricesArray[currentSkinIndex] == 0)
         {
-            if (currentSkinIndex == currentSkinSelected) {
+            if (currentSkinIndex == currentSkinSelected)
+            {
                 selectButton.GetComponent<Text>().text = "Selected";
-                //selectButton.GetComponent<Button>().onClick.AddListener(null);
             }
             else
             {
                 selectButton.GetComponent<Text>().text = "Select";
-                //selectButton.GetComponent<Button>().onClick.AddListener(SelectButtonClick);
             }
             selectButton.SetActive(true);
             buyButton.SetActive(false);
@@ -127,7 +157,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    //
+    // Select a bought skin
     public void SelectButtonClick()
     {
         // Set skin color info
@@ -138,22 +168,38 @@ public class ShopManager : MonoBehaviour
         selectButton.GetComponent<Text>().text = "Selected";
     }
 
+    // Reduce price, hide buy button when user buy a skin
     public void BuyButtonCLick()
     {
-        playerPoint -= pricesArray[currentSkinIndex];
-        pricesArray[currentSkinIndex] = 0;
+        if(playerPoint >= pricesArray[currentSkinIndex])
+        {
+            playerPoint -= pricesArray[currentSkinIndex];
+            pricesArray[currentSkinIndex] = 0;
 
-        buyButton.SetActive(false);
-        selectButton.SetActive(true);
+            // Define that this skin was bought
+            isBoughtArray[currentSkinIndex] = 1;
+
+            buyButton.SetActive(false);
+            selectButton.SetActive(true);
+
+            selectButton.GetComponent<Text>().text = "Select";
+
+            // Set point to point UI text
+            totalPointUI.text = "Your point: " + playerPoint.ToString();
+        }
+        else
+        {
+            // Not enough point to buy skin
+        }
     }
 
     // Save information
     public void SaveInfo()
     {
         // Save prices
-        for (int i = 0; i < pricesArray.Length; i++)
+        for (int i = 0; i < isBoughtArray.Length; i++)
         {
-            PlayerPrefs.SetInt(priceKeys[i], pricesArray[i]);
+            PlayerPrefs.SetInt(isBoughtKeys[i], isBoughtArray[i]);
         }
 
         // Save current skin index
