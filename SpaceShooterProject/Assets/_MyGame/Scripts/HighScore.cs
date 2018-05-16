@@ -7,19 +7,17 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Keys
 {
-    public string totalScoreKey = "total";
+    // Key for total score which is used in Shop Menu
+    static public string totalScoreKey = "total";
+
+    // All time killed enemies (used in Achievement)
+    static public string enemyKilledKey = "enemykilled";
 }
 
 public class HighScore : MonoBehaviour
 {
-
-    public Keys keys;
-
     // Keys of top 5 highScore
     private string[] highScoresKeys;
-
-    // Total score to use in shop
-    //private string totalScoreKey = "total";
 
     // Used to highScores data
     private int[] highScoresArray;
@@ -27,21 +25,32 @@ public class HighScore : MonoBehaviour
     // Texts to display
     public Text[] displayTexts;
 
-    // Define if the highScoreArray is descending or not
+    // Define if the highScoresArray is descending or not
     private bool isDescending;
 
     // Use this for initialization
     void Start()
     {
         highScoresKeys = new string[] { "h1", "h2", "h3", "h4", "h5" };
-        //totalScoreKey = "total";
         highScoresArray = new int[5];
         GetHighScores();
         DisplayHighScores();
     }
 
+    // Get highScores data
+    private void GetHighScores()
+    {
+        for (int i = 0; i < highScoresKeys.Length; i++)
+        {
+            highScoresArray[i] = PlayerPrefs.GetInt(highScoresKeys[i]);
+        }
+
+        Array.Sort(highScoresArray);
+        isDescending = false;
+    }
+
     // Display high scores of players
-    private void DisplayHighScores()
+    public void DisplayHighScores()
     {
         // Sort by descending
         if (!isDescending)
@@ -50,43 +59,20 @@ public class HighScore : MonoBehaviour
             isDescending = true;
         }
 
+        // Show high scores to UI texts
         for (int i = 0; i < displayTexts.Length; i++)
         {
             displayTexts[i].text = "Top " + (i + 1) + ": " + highScoresArray[i].ToString();
         }
     }
 
-    // Get highScores data
-    private void GetHighScores()
-    {
-        for (int i = 0; i < highScoresKeys.Length; i++)
-        {
-            //if (PlayerPrefs.HasKey(highScoresKeys[i]))
-            //{
-            //    highScoresArray[i] = PlayerPrefs.GetInt(highScoresKeys[i]);
-            //}
-            //else
-            //{
-            //    highScoresArray[i] = 0;
-            //}
-            highScoresArray[i] = PlayerPrefs.GetInt(highScoresKeys[i]);
-        }
-
-        Array.Sort(highScoresArray);
-        isDescending = false;
-        foreach (int i in highScoresArray)
-        {
-            print(i);
-        }
-    }
-
-
+    // Save player's total score and high scores
     public void Save()
     {
         int score = FindObjectOfType<Score>().GetScore();
 
         // Save total player score
-        PlayerPrefs.SetInt(keys.totalScoreKey, PlayerPrefs.GetInt(keys.totalScoreKey) + score);
+        PlayerPrefs.SetInt(Keys.totalScoreKey, PlayerPrefs.GetInt(Keys.totalScoreKey) + score);
 
         // Sort by ascending
         if (isDescending)
@@ -95,10 +81,11 @@ public class HighScore : MonoBehaviour
             isDescending = false;
         }
 
-        // Update highScores
+        print("Accessing score info!!!!!!!!");
+
+        //UpdateHighScore(score);
         for (int i = 0; i < highScoresArray.Length; i++)
         {
-            print(highScoresArray[i].ToString() + " --- " + score.ToString());
             if (highScoresArray[i] <= score)
             {
                 highScoresArray[i] = score;
@@ -114,5 +101,18 @@ public class HighScore : MonoBehaviour
         }
 
         PlayerPrefs.Save();
+    }
+
+    // Update highScore if it is smaller than current score
+    private void UpdateHighScore(int score)
+    {
+        for (int i = 0; i < highScoresArray.Length; i++)
+        {
+            if (highScoresArray[i] <= score)
+            {
+                highScoresArray[i] = score;
+                break;
+            }
+        }
     }
 }

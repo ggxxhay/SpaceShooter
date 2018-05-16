@@ -1,51 +1,71 @@
-﻿using GooglePlayGames;
+﻿//using GooglePlayGames;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
-using UnityEngine.SocialPlatforms.GameCenter;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class Leaderboard
+{
+    static public ILeaderboard leaderboard;
+}
 
 public class LevelManager : MonoBehaviour
 {
+    public GameObject[] otherMenus;
+
     // A temporary menu object
     private GameObject menuTemp;
 
     private GameObject mainMenu;
     private GameObject backButton;
 
-    private GameObject[] otherMenus;
-
     static private bool once = true;
 
     private void Start()
     {
-        //menuRect = GameObject.Find("Menu").GetComponent<RectTransform>();
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteKey(Keys.enemyKilledKey);
+
+        Assets.SimpleAndroidNotifications.NotificationManager.CancelAll();
+
         mainMenu = GameObject.Find("Menu");
         backButton = GameObject.Find("Back");
 
         backButton.SetActive(false);
-
-        otherMenus = new GameObject[] {
-            GameObject.Find("SettingMenu"),
-            GameObject.Find("HighScoreMenu"),
-            GameObject.Find("ShopMenu")
-        };
 
         foreach (var menu in otherMenus)
         {
             menu.SetActive(false);
         }
 
-        // Play game services
-        //if (once)
-        //{
-        //    PlayGamesPlatform.Activate();
-        //    once = false;
-        //}
-        //Authenticate();
-        //CreateAchievement();
+        Authenticate();
+    }
+
+    private void Update()
+    {
+        Escape();
+    }
+
+    /// <summary>
+    /// Execution when escape button pressed
+    /// </summary>
+    public void Escape()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (mainMenu.activeSelf)
+            {
+                Quit();
+            }
+            else
+            {
+                ToMainMenu();
+            }
+        }
     }
 
     // Authenticate local user
@@ -66,38 +86,18 @@ public class LevelManager : MonoBehaviour
         });
     }
 
-    // 
-    public void CreateAchievement()
-    {
-        for (int i = 1; i <= 10; i++)
-        {
-            IAchievement achievement = Social.CreateAchievement();
-            achievement.id = "Achievement0" + i.ToString();
-            achievement.percentCompleted = 100;
-            achievement.ReportProgress(success =>
-            {
-                if (success)
-                {
-                    Debug.Log("Success report!");
-                }
-                else
-                {
-                    Debug.Log("Error report!");
-                }
-                Debug.Log("--- " + achievement.id + " ---");
-            });
-        }
-    }
-
-    // Change Scene
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
-    // Exit Application
+    /// <summary>
+    /// Exit Application
+    /// </summary>
     public void Quit()
     {
+        Assets.SimpleAndroidNotifications.NotificationManager.
+            Send(TimeSpan.FromSeconds(10), "I miss you", "Long time no see. Please come back!", Color.blue);
         Application.Quit();
     }
 
@@ -131,7 +131,15 @@ public class LevelManager : MonoBehaviour
                 // Show achievement
                 if (menuName == "AchievementMenu")
                 {
-                    Social.ShowAchievementsUI();
+                    GetComponent<AchievementManager>().LoadAchievement();
+                }
+
+                // Show highScores
+                if(menuName == "HighScoreMenu")
+                {
+                    //GetComponent<LeaderboardManager>().ShowScore();
+
+                    GetComponent<HighScore>().DisplayHighScores();
                 }
 
                 break;
@@ -147,7 +155,7 @@ public class LevelManager : MonoBehaviour
         mainMenu.SetActive(true);
 
         // Save prices and skin color when out shop menu
-        if(menuTemp.name == "ShopMenu")
+        if (menuTemp.name == "ShopMenu")
         {
             FindObjectOfType<ShopManager>().SaveInfo();
         }

@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
     public int currentWave;
 
     // Time to spawn other hazard in a wave
-    public int spawnWaitTime = 5;
+    public float spawnWaitTime = 3f;
 
     // Check status of Coroutine
     public bool isRunning;
@@ -80,9 +80,9 @@ public class GameController : MonoBehaviour
             }
             
             // Reduce hazards spawn delay each wave
-            if (spawnWaitTime > 1)
+            if (spawnWaitTime > 0.5)
             {
-                spawnWaitTime--;
+                spawnWaitTime -= 0.5f;
             }
 
             yield return delay;
