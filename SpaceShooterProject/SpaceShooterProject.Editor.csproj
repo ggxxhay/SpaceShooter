@@ -306,25 +306,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GooglePlayGames\Editor\ForceNoGpgsForIOS.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\GPGSDocsUI.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\GPGSPostBuild.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\GPGSProjectSettings.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\GPGSStrings.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\GPGSUpgrader.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\GPGSUtil.cs" />
-    <Compile Include="Assets\GooglePlayGames\Editor\NearbyConnectionUI.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPluginDependencies.xml" />
-    <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPlugin_v0.9.50.txt" />
-    <None Include="Assets\GooglePlayGames\Editor\m2repository\com\google\games\gpgs-plugin-support\maven-metadata.xml" />
-    <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
-    <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
-    <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
-    <None Include="Assets\GooglePlayGames\Plugins\Android\GooglePlayGamesManifest.plugin\AndroidManifest.xml" />
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.61.0.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

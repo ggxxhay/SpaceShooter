@@ -35,9 +35,17 @@ public class Player : MonoBehaviour
     // Current bullet type index
     public int bulletType;
 
+    // Variables used to move with mouse drag
+    private Vector3 screenPoint;
+    private Vector3 offset;
+
+    private bool isTouched;
+
     // Use this for initialization
     private void Start()
     {
+        isTouched = false;
+
         // Hide game over texts
         foreach (var t in gameOverTexts)
         {
@@ -51,7 +59,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MoveByTouch();
         Move();
+        if (Input.touchCount <= 0)
+        {
+            isTouched = false;
+            //offset = new Vector3(0, 0, 0);
+        }
+        //OnMouseDown();
+        //OnMouseDrag();
 
         // Shooting bullets
         if (Input.GetButton("Fire1") && Time.time >= nextFire)
@@ -95,7 +111,72 @@ public class Player : MonoBehaviour
         // Rotate Player while moving left-right
         GetComponent<Rigidbody>().rotation = Quaternion.Euler(0f, 0f, GetComponent<Rigidbody>().velocity.x * -tilt);
     }
-    
+
+    private void MoveByTouch()
+    {
+        if (Input.touchCount > 0)
+        {
+            // Get the first touch
+            Touch touch = Input.GetTouch(0);
+
+            if (!isTouched)
+            {
+                Vector3 startPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
+
+                offset = startPos - transform.position;
+
+                isTouched = true;
+            }
+            //offset.y = 0;
+
+            // If touch is holding or moving, then move player
+            if (touch.phase == TouchPhase.Moved)
+            {
+                // Get touch position and convert to world point
+                Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
+
+                touchPos -= offset;
+
+                //Vector3 offset = touchPos - transform.position;
+
+                //touchPos.x -= transform.position.x;
+                //touchPos.z -= transform.position.z;
+
+                // Clamp moved position
+                Vector3 clampedPos = new Vector3(
+                        Mathf.Clamp(touchPos.x, boundary.xMin, boundary.xMax),
+                        0,
+                        Mathf.Clamp(touchPos.z, boundary.zMin, boundary.zMax)
+                    );
+
+                //Vector3 clampedPos = new Vector3(
+                //        Mathf.Clamp(touchPos.x, boundary.xMin, boundary.xMax),
+                //        Mathf.Clamp(touchPos.y, boundary.zMin, boundary.zMax),
+                //        0
+                //    );
+
+                // Let player move smoothly.
+                transform.position = Vector3.Lerp(transform.position, clampedPos, speed);
+            }
+        }
+    }
+
+    void OnMouseDown()
+    {
+        print("Mouse down");
+        screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, screenPoint.y, Input.mousePosition.z));
+    }
+
+    void OnMouseDrag()
+    {
+        print("Mouse Drag");
+        Vector3 cursorPoint = new Vector3(Input.mousePosition.x, screenPoint.y, Input.mousePosition.z);
+        Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + offset;
+        //transform.position = cursorPosition;
+        transform.position = new Vector3(cursorPosition.x, 0, cursorPosition.z);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         string layer = LayerMask.LayerToName(other.gameObject.layer);

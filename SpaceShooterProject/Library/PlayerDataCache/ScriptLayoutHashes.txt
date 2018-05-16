@@ -172,10 +172,10 @@ a6cdd6b81af37b04e35f62370188be69 Assembly-CSharp.dll:.Enemy
 e90505838659769eff22baa4beb9058f Assembly-CSharp.dll:.Player
 85ae836fe3814eb4d4896d863841de8c Assembly-CSharp.dll:.Done_PlayerController
 4c4e5bbdfb8b8f4d80c5ad7176b30d43 Assembly-CSharp.dll:.Done_RandomRotator
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:GooglePlayGames.OurUtils.PlayGamesHelperObject
 dd5481137759597d614818793c90a7fe Assembly-CSharp.dll:.Background
 e6620c373ab7ec2b45024da89745a65e Assembly-CSharp.dll:.Done_BGScroller
 ce09cb02e2f857c8aa562f2552261f90 Assembly-CSharp.dll:.PlayerBullet
 4c4e5bbdfb8b8f4d80c5ad7176b30d43 Assembly-CSharp.dll:.Asteroid
 c55f73f8f1562b6824faf4063dd4b0fd Assembly-CSharp.dll:.Explosion
 a0dcef889bcbbdb0a398c4e8e4b8e14b Assembly-CSharp.dll:.Done_GameController
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Drag

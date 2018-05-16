@@ -6,7 +6,9 @@ public class Mover : MonoBehaviour {
 
     public float speed;
 
-	// Move the object
+    /// <summary>
+    /// Move the object down
+    /// </summary>
     private void Start()
     {
         if(gameObject.tag == "Gift")

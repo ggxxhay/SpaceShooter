@@ -7,14 +7,11 @@ public class Asteroid : MonoBehaviour {
     // Impact to degree of angularVelocity
     public float tumble;
 
-	// Use this for initialization
+	/// <summary>
+    /// Rotate the asteroid while moving
+    /// </summary>
 	void Start () {
         // Let the asteroid turn around
         GetComponent<Rigidbody>().angularVelocity = Random.insideUnitSphere * tumble;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }
