@@ -30,7 +30,7 @@ public class AchievementManager : MonoBehaviour
     // Report achievement progress from saved data
     private void ReportAchievement(string idKey)
     {
-        //PlayerPrefs.DeleteKey(idKey);
+        //PlayerPrefs.DeleteAll();
         Social.ReportProgress(idKey, PlayerPrefs.GetInt(idKey), success =>
         {
             if (success)
@@ -42,7 +42,6 @@ public class AchievementManager : MonoBehaviour
                 print("Report failed: " + idKey);
             }
         });
-        PlayerPrefs.SetInt(idKey, 100);
     }
 
     // Show ahievement UI

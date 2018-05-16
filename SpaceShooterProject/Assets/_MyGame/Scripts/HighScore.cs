@@ -16,14 +16,14 @@ public class Keys
 
 public class HighScore : MonoBehaviour
 {
+    // Texts to display
+    public Text[] DisplayTexts;
+
     // Keys of top 5 highScore
     private string[] highScoresKeys;
 
     // Used to highScores data
     private int[] highScoresArray;
-
-    // Texts to display
-    public Text[] displayTexts;
 
     // Define if the highScoresArray is descending or not
     private bool isDescending;
@@ -37,7 +37,9 @@ public class HighScore : MonoBehaviour
         DisplayHighScores();
     }
 
-    // Get highScores data
+    /// <summary>
+    /// Get saved highScores data
+    /// </summary>
     private void GetHighScores()
     {
         for (int i = 0; i < highScoresKeys.Length; i++)
@@ -49,7 +51,9 @@ public class HighScore : MonoBehaviour
         isDescending = false;
     }
 
-    // Display high scores of players
+    /// <summary>
+    /// Display high scores to UI
+    /// </summary>
     public void DisplayHighScores()
     {
         // Sort by descending
@@ -60,13 +64,15 @@ public class HighScore : MonoBehaviour
         }
 
         // Show high scores to UI texts
-        for (int i = 0; i < displayTexts.Length; i++)
+        for (int i = 0; i < DisplayTexts.Length; i++)
         {
-            displayTexts[i].text = "Top " + (i + 1) + ": " + highScoresArray[i].ToString();
+            DisplayTexts[i].text = "Top " + (i + 1) + ": " + highScoresArray[i].ToString();
         }
     }
 
-    // Save player's total score and high scores
+    /// <summary>
+    /// Save player's total score and high scores
+    /// </summary>
     public void Save()
     {
         int score = FindObjectOfType<Score>().GetScore();
@@ -83,15 +89,15 @@ public class HighScore : MonoBehaviour
 
         print("Accessing score info!!!!!!!!");
 
-        //UpdateHighScore(score);
-        for (int i = 0; i < highScoresArray.Length; i++)
-        {
-            if (highScoresArray[i] <= score)
-            {
-                highScoresArray[i] = score;
-                break;
-            }
-        }
+        UpdateHighScore(score);
+        //for (int i = 0; i < highScoresArray.Length; i++)
+        //{
+        //    if (highScoresArray[i] <= score)
+        //    {
+        //        highScoresArray[i] = score;
+        //        break;
+        //    }
+        //}
 
         // Save highScores
         for (int i = 0; i < highScoresKeys.Length; i++)
@@ -103,7 +109,10 @@ public class HighScore : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // Update highScore if it is smaller than current score
+    /// <summary>
+    /// Update highScore if it is smaller than current score
+    /// </summary>
+    /// <param name="score"></param>
     private void UpdateHighScore(int score)
     {
         for (int i = 0; i < highScoresArray.Length; i++)

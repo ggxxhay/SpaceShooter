@@ -27,6 +27,7 @@ public class ShopManager : MonoBehaviour
 
     GameObject buyButton;
     GameObject selectButton;
+    GameObject noticeText;
 
     Text priceUI;
     Text totalPointUI;
@@ -48,14 +49,7 @@ public class ShopManager : MonoBehaviour
         playerPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
 
         // Get current selected skin index
-        //if (PlayerPrefs.HasKey(currentSkinIndexKey))
-        //{
-            currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
-        //}
-        //else
-        //{
-        //    currentSkinIndex = 0;
-        //}
+        currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
 
         currentSkinSelected = currentSkinIndex;
 
@@ -65,12 +59,16 @@ public class ShopManager : MonoBehaviour
         ShopBegin();
     }
 
-    // Shop initialize
+    /// <summary>
+    /// Shop initialize.
+    /// </summary>
     public void ShopBegin()
     {
         buyButton = GameObject.Find("Buy");
         selectButton = GameObject.Find("Select");
+        noticeText = GameObject.Find("Notice");
 
+        noticeText.SetActive(false);
         SelectButtonClick();
 
         // Change player skin color
@@ -78,29 +76,26 @@ public class ShopManager : MonoBehaviour
 
         GetBuyingInfo();
         UpdatePrice();
-        ChangeButtonStage();
+        ChangeButtonStatus();
 
         // Set point to point UI text
-        totalPointUI.text = "Your point: " + playerPoint.ToString();
+        totalPointUI.text = "Your money: " + playerPoint.ToString();
     }
 
-    // Get saved buy info from PlayerPrefs
+    /// <summary>
+    /// Get saved buying information.
+    /// </summary>
     public void GetBuyingInfo()
     {
         for (int i = 0; i < pricesArray.Length; i++)
         {
-            //if (PlayerPrefs.HasKey(isBoughtKeys[i]))
-            //{
-                isBoughtArray[i] = PlayerPrefs.GetInt(isBoughtKeys[i]);
-            //}
-            //else
-            //{
-            //    isBoughtArray[i] = 0;
-            //}
+            isBoughtArray[i] = PlayerPrefs.GetInt(isBoughtKeys[i]);
         }
     }
 
-    // Update price as buying info
+    /// <summary>
+    /// Update price.
+    /// </summary>
     private void UpdatePrice()
     {
         for (int i = 0; i < isBoughtArray.Length; i++)
@@ -112,9 +107,12 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    // Change player skin color
+    /// <summary>
+    /// Execution when next button clicked.
+    /// </summary>
     public void NextButtonClick()
     {
+        noticeText.SetActive(false);
         // Change current skin index
         if (currentSkinIndex < skinColors.Length - 1)
         {
@@ -131,11 +129,13 @@ public class ShopManager : MonoBehaviour
         // Change prices
         priceUI.text = "Price: " + pricesArray[currentSkinIndex];
 
-        ChangeButtonStage();
+        ChangeButtonStatus();
     }
 
-    // Change buttons' stage: buy and select buttons
-    public void ChangeButtonStage()
+    /// <summary>
+    /// Change buy button and select button status.
+    /// </summary>
+    public void ChangeButtonStatus()
     {
         if (pricesArray[currentSkinIndex] == 0)
         {
@@ -157,7 +157,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    // Select a bought skin
+    /// <summary>
+    /// Execution when select button clicked.
+    /// </summary>
     public void SelectButtonClick()
     {
         // Set skin color info
@@ -168,10 +170,12 @@ public class ShopManager : MonoBehaviour
         selectButton.GetComponent<Text>().text = "Selected";
     }
 
-    // Reduce price, hide buy button when user buy a skin
+    /// <summary>
+    /// Execution when buy button clicked.
+    /// </summary>
     public void BuyButtonCLick()
     {
-        if(playerPoint >= pricesArray[currentSkinIndex])
+        if (playerPoint >= pricesArray[currentSkinIndex])
         {
             playerPoint -= pricesArray[currentSkinIndex];
             pricesArray[currentSkinIndex] = 0;
@@ -189,11 +193,29 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            // Not enough point to buy skin
+            StartCoroutine(Notify());
         }
     }
 
-    // Save information
+    /// <summary>
+    /// Notify player about money problem.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Notify()
+    {
+        noticeText.SetActive(true);
+        for (int i = 0; i < 5; i++)
+        {
+            noticeText.GetComponent<Text>().text = "";
+            yield return new WaitForSeconds(0.15f);
+            noticeText.GetComponent<Text>().text = "Not enough money!";
+            yield return new WaitForSeconds(0.15f);
+        }
+    }
+
+    /// <summary>
+    /// Save buying and current skin information.
+    /// </summary>
     public void SaveInfo()
     {
         // Save prices
