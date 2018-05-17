@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/_Complete-Game/_Complete-Game.unity
+=======
+- path: Assets/_MyGame/Scenes/MainGame.unity
+>>>>>>> feature/newDevelop
   isLoaded: 1
   isActive: 1
