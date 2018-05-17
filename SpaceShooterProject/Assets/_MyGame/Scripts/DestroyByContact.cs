@@ -32,23 +32,25 @@ public class DestroyByContact : MonoBehaviour
         if (other.tag == "Player")
         {
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+            Destroy(other.gameObject);
         }
 
-        // If collider is player bullet, then reduce the hazard's health
-        if (LayerMask.LayerToName(other.gameObject.layer) == "PlayerBullet")
+        // If collider is player bullet, then reduce the hazard's health and move the bullet to invisible zone
+        if (other.tag == "PlayerBullet")
         {
             Transform playerBulletTransform = other.transform;
 
             PlayerBullet playerBullet = playerBulletTransform.GetComponent<PlayerBullet>();
 
+            // Change player bullet's position to invisible zone
+            playerBulletTransform.position = Boundary.InvisibleZonePLayerBullet;
+
+            playerBullet.isActive = false;
+
             hazards.hp -= playerBullet.damage;
         }
 
-        Destroy(other.gameObject);
-        //Destroy(playerExplosion);
-
         EnemyDead();
-        
     }
 
     // Enemy health reduce to 0
