@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class Boundary
 {
     public float xMax = 5.2f, xMin = -5.2f, zMax = 5f, zMin = -9.15f;
+
+    public static Vector3 InvisibleZonePLayerBullet = new Vector3(0, 0, 15);
 }
 
 public class Player : MonoBehaviour
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
 
     // Current bullet type index
     public int bulletType;
+    private bool isBulletTypeUpdated;
 
     // Variables used to move with mouse drag
     private Vector3 screenPoint;
@@ -45,6 +48,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         isTouched = false;
+        isBulletTypeUpdated = true;
 
         poolingBullets = new List<GameObject>();
 
@@ -93,7 +97,8 @@ public class Player : MonoBehaviour
                 }
             }
 
-            GameObject newBullet = Instantiate(bullets[bulletType], transform.position, transform.rotation);
+            // Cannot call if-else because if statement is in the foreach loop
+            GameObject newBullet = Instantiate(bullets[bulletType], transform.position, Quaternion.Euler(0, 0, 0));
             poolingBullets.Add(newBullet);
 
             nextFire = Time.time + shotDelay;
@@ -141,13 +146,13 @@ public class Player : MonoBehaviour
 
             if (!isTouched)
             {
+                // The original position that player touch the screen
                 Vector3 startPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
 
                 offset = startPos - transform.position;
 
                 isTouched = true;
             }
-            //offset.y = 0;
 
             // If touch is holding or moving, then move player
             if (touch.phase == TouchPhase.Moved)
@@ -200,37 +205,55 @@ public class Player : MonoBehaviour
         // Destroy gift, increase player bullet's damage when player collision with gift
         else if (layer == "Gift")
         {
-            if (bulletType >= bullets.Length - 1)
-            {
-                bullets[bulletType].GetComponent<PlayerBullet>().damage++;
-            }
-            else
-            {
-                bulletType++;
-            }
+            ChangeBulletType();
             Destroy(other.gameObject);
         }
     }
 
-    // Save score, high scores and notify game over to user
+    /// <summary>
+    /// Change bullet type for bullets in pool
+    /// </summary>
+    private void ChangeBulletType()
+    {
+        if (bulletType < bullets.Length - 1)
+        {
+            bulletType++;
+            isBulletTypeUpdated = false;
+        }
+        else
+        {
+            isBulletTypeUpdated = true;
+        }
+        UpdateBullet();
+    }
+
+    /// <summary>
+    /// Update bullet type and damage for bullets in pool
+    /// </summary>
+    private void UpdateBullet()
+    {
+        for (int i = 0; i < poolingBullets.Count; i++)
+        {
+            if (isBulletTypeUpdated)
+            {
+                poolingBullets[i].GetComponent<PlayerBullet>().damage++;
+            }
+            else
+            {
+                poolingBullets[i] = bullets[bulletType];
+                poolingBullets[i].GetComponent<PlayerBullet>().isActive = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Save score, high scores and notify game over to user
+    /// </summary>
     private void OnDestroy()
     {
-        // Save score and high scores before leave the scene
         transform.GetComponent<HighScore>().Save();
 
         FindObjectOfType<GameController>().GameOver();
-
-        //foreach (var t in gameOverTexts)
-        //{
-        //    t.SetActive(true);
-        //}
-
-        //// Change position and font properties of score UI text
-        //RectTransform scoreUIRectTransform = scoreUI.GetComponent<RectTransform>();
-        //scoreUIRectTransform.anchoredPosition = new Vector2(0, 0);
-        //scoreUIRectTransform.sizeDelta = new Vector2(400, 120);
-        //scoreUI.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
-        //scoreUI.GetComponent<Text>().fontSize = 70;
     }
 
     public void AchievementNotice()
