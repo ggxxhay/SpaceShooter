@@ -18,10 +18,6 @@ public class Player : MonoBehaviour
     public float speed = 10;
     public Boundary boundary;
     public GameObject explosion;
-    public GameObject scoreUI;
-
-    // Text to display when game over
-    public GameObject[] gameOverTexts;
 
     // Tilt when playerShip rotating
     public float tilt;
@@ -32,6 +28,9 @@ public class Player : MonoBehaviour
     // Types of bullet
     public GameObject[] bullets;
 
+    // Bullets for pooling
+    private List<GameObject> poolingBullets;
+
     // Current bullet type index
     public int bulletType;
 
@@ -39,6 +38,7 @@ public class Player : MonoBehaviour
     private Vector3 screenPoint;
     private Vector3 offset;
 
+    // Define if user is touching screen, use in moving player
     private bool isTouched;
 
     // Use this for initialization
@@ -46,11 +46,7 @@ public class Player : MonoBehaviour
     {
         isTouched = false;
 
-        // Hide game over texts
-        foreach (var t in gameOverTexts)
-        {
-            t.SetActive(false);
-        }
+        poolingBullets = new List<GameObject>();
 
         // Set skin for player
         gameObject.GetComponent<Renderer>().material.color = SkinColor.playerSkinColor;
@@ -69,15 +65,39 @@ public class Player : MonoBehaviour
         //OnMouseDown();
         //OnMouseDrag();
 
-        // Shooting bullets
+        Shoot();
+
+        ChangeBullet();
+    }
+
+    /// <summary>
+    /// Shooting bullets
+    /// </summary>
+    private void Shoot()
+    {
         if (Input.GetButton("Fire1") && Time.time >= nextFire)
         {
             GetComponent<AudioSource>().Play();
-            Instantiate(bullets[bulletType], transform.position, transform.rotation);
+
+            foreach (var bullet in poolingBullets)
+            {
+                PlayerBullet pBullet = bullet.GetComponent<PlayerBullet>();
+
+                // If the bullet is not active, shoot it.
+                if (pBullet.isActive == false)
+                {
+                    pBullet.transform.position = transform.position;
+                    pBullet.isActive = true;
+                    nextFire = Time.time + shotDelay;
+                    return;
+                }
+            }
+
+            GameObject newBullet = Instantiate(bullets[bulletType], transform.position, transform.rotation);
+            poolingBullets.Add(newBullet);
+
             nextFire = Time.time + shotDelay;
         }
-
-        ChangeBullet();
     }
 
     // Change bullet type
@@ -137,23 +157,12 @@ public class Player : MonoBehaviour
 
                 touchPos -= offset;
 
-                //Vector3 offset = touchPos - transform.position;
-
-                //touchPos.x -= transform.position.x;
-                //touchPos.z -= transform.position.z;
-
                 // Clamp moved position
                 Vector3 clampedPos = new Vector3(
                         Mathf.Clamp(touchPos.x, boundary.xMin, boundary.xMax),
                         0,
                         Mathf.Clamp(touchPos.z, boundary.zMin, boundary.zMax)
                     );
-
-                //Vector3 clampedPos = new Vector3(
-                //        Mathf.Clamp(touchPos.x, boundary.xMin, boundary.xMax),
-                //        Mathf.Clamp(touchPos.y, boundary.zMin, boundary.zMax),
-                //        0
-                //    );
 
                 // Let player move smoothly.
                 transform.position = Vector3.Lerp(transform.position, clampedPos, speed);
@@ -209,17 +218,24 @@ public class Player : MonoBehaviour
         // Save score and high scores before leave the scene
         transform.GetComponent<HighScore>().Save();
 
-        foreach (var t in gameOverTexts)
-        {
-            t.SetActive(true);
-        }
+        FindObjectOfType<GameController>().GameOver();
 
-        // Change position and font properties of score UI text
-        RectTransform scoreUIRectTransform = scoreUI.GetComponent<RectTransform>();
-        scoreUIRectTransform.anchoredPosition = new Vector2(0, 0);
-        scoreUIRectTransform.sizeDelta = new Vector2(400, 120);
-        scoreUI.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
-        scoreUI.GetComponent<Text>().fontSize = 70;
+        //foreach (var t in gameOverTexts)
+        //{
+        //    t.SetActive(true);
+        //}
+
+        //// Change position and font properties of score UI text
+        //RectTransform scoreUIRectTransform = scoreUI.GetComponent<RectTransform>();
+        //scoreUIRectTransform.anchoredPosition = new Vector2(0, 0);
+        //scoreUIRectTransform.sizeDelta = new Vector2(400, 120);
+        //scoreUI.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+        //scoreUI.GetComponent<Text>().fontSize = 70;
+    }
+
+    public void AchievementNotice()
+    {
+
     }
 
     // Return to Main menu

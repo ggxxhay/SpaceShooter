@@ -6,18 +6,26 @@ using UnityEngine.SocialPlatforms;
 
 public class AchievementManager : MonoBehaviour
 {
+    public static string[] AchievementDescription;
 
-    public string[] achievementDescription;
-    public Text[] achievementUI;
+    public Text[] AchievementUI;
 
     // Use this for initialization
     void Start()
     {
+        AchievementDescription = new string[]
+        {
+            "Kill first enemy",
+            "Kill 10 enemies",
+            "Kill 100 enemies"
+        };
         CreateAchievement();
     }
 
-    // 
-    public void CreateAchievement()
+    /// <summary>
+    /// Create achievement instances
+    /// </summary>
+    private void CreateAchievement()
     {
         for (int i = 1; i <= 3; i++)
         {
@@ -65,12 +73,16 @@ public class AchievementManager : MonoBehaviour
                     Debug.Log(myAchievements);
 
                     // Display achievement to UI text
-                    achievementUI[i].text = " " + achievementDescription[i] + ": " + achievement.percentCompleted + "%";
+                    AchievementUI[i].text = " " + AchievementDescription[i] + ": " + achievement.percentCompleted + "%";
                     if (achievement.percentCompleted == 100)
                     {
-                        achievementUI[i].color = Color.yellow;
+                        AchievementUI[i].color = Color.yellow;
                     }
                     i++;
+                    if (i > AchievementUI.Length - 1)
+                    {
+                        break;
+                    }
                 }
             }
             else

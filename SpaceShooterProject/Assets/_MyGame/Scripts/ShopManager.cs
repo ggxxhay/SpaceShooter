@@ -12,9 +12,9 @@ public class SkinColor
 public class ShopManager : MonoBehaviour
 {
     // Shopping variables
-    public GameObject player;
-    public Color[] skinColors;
-    public int[] pricesArray;
+    public GameObject Player;
+    public Color[] SkinColors;
+    public int[] PricesArray;
 
     private string[] isBoughtKeys;
     private int[] isBoughtArray;
@@ -38,9 +38,11 @@ public class ShopManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Player = Instantiate(Player, new Vector3(0, 0, 2.5f), new Quaternion());
+
         //PlayerPrefs.DeleteAll();
         isBoughtKeys = new string[] { "isBought1", "isBought2", "isBought3", "isBought4", "isBought5" };
-        pricesArray = new int[] { 0, 50, 60, 70, 80 };
+        PricesArray = new int[] { 0, 50, 60, 70, 80 };
         isBoughtArray = new int[5];
 
         currentSkinIndexKey = "skinIndex";
@@ -72,7 +74,7 @@ public class ShopManager : MonoBehaviour
         SelectButtonClick();
 
         // Change player skin color
-        player.GetComponent<Renderer>().material.color = skinColors[currentSkinIndex];
+        Player.GetComponent<Renderer>().material.color = SkinColors[currentSkinIndex];
 
         GetBuyingInfo();
         UpdatePrice();
@@ -87,7 +89,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void GetBuyingInfo()
     {
-        for (int i = 0; i < pricesArray.Length; i++)
+        for (int i = 0; i < PricesArray.Length; i++)
         {
             isBoughtArray[i] = PlayerPrefs.GetInt(isBoughtKeys[i]);
         }
@@ -102,7 +104,7 @@ public class ShopManager : MonoBehaviour
         {
             if (isBoughtArray[i] == 1)
             {
-                pricesArray[i] = 0;
+                PricesArray[i] = 0;
             }
         }
     }
@@ -114,7 +116,7 @@ public class ShopManager : MonoBehaviour
     {
         noticeText.SetActive(false);
         // Change current skin index
-        if (currentSkinIndex < skinColors.Length - 1)
+        if (currentSkinIndex < SkinColors.Length - 1)
         {
             currentSkinIndex++;
         }
@@ -124,10 +126,10 @@ public class ShopManager : MonoBehaviour
         }
 
         // Change player skin color
-        player.GetComponent<Renderer>().material.color = skinColors[currentSkinIndex];
+        Player.GetComponent<Renderer>().material.color = SkinColors[currentSkinIndex];
 
         // Change prices
-        priceUI.text = "Price: " + pricesArray[currentSkinIndex];
+        priceUI.text = "Price: " + PricesArray[currentSkinIndex];
 
         ChangeButtonStatus();
     }
@@ -137,7 +139,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void ChangeButtonStatus()
     {
-        if (pricesArray[currentSkinIndex] == 0)
+        if (PricesArray[currentSkinIndex] == 0)
         {
             if (currentSkinIndex == currentSkinSelected)
             {
@@ -163,7 +165,7 @@ public class ShopManager : MonoBehaviour
     public void SelectButtonClick()
     {
         // Set skin color info
-        SkinColor.playerSkinColor = skinColors[currentSkinIndex];
+        SkinColor.playerSkinColor = SkinColors[currentSkinIndex];
 
         currentSkinSelected = currentSkinIndex;
 
@@ -175,10 +177,10 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void BuyButtonCLick()
     {
-        if (playerPoint >= pricesArray[currentSkinIndex])
+        if (playerPoint >= PricesArray[currentSkinIndex])
         {
-            playerPoint -= pricesArray[currentSkinIndex];
-            pricesArray[currentSkinIndex] = 0;
+            playerPoint -= PricesArray[currentSkinIndex];
+            PricesArray[currentSkinIndex] = 0;
 
             // Define that this skin was bought
             isBoughtArray[currentSkinIndex] = 1;

@@ -8,11 +8,13 @@ public class Score : MonoBehaviour
 
     private int score;
 
-    public Text scoreUI;
+    private Text scoreUI;
 
     // Use this for initialization
     void Start()
     {
+        //scoreUI = GameObject.Find("Score").GetComponent<Text>();
+        scoreUI = transform.GetComponent<Text>();
         score = 0;
     }
 

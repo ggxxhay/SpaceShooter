@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         //PlayerPrefs.DeleteKey(Keys.enemyKilledKey);
 
         Assets.SimpleAndroidNotifications.NotificationManager.CancelAll();
@@ -157,6 +157,7 @@ public class LevelManager : MonoBehaviour
         // Save prices and skin color when out shop menu
         if (menuTemp.name == "ShopMenu")
         {
+            Destroy(FindObjectOfType<ShopManager>().Player);
             FindObjectOfType<ShopManager>().SaveInfo();
         }
 

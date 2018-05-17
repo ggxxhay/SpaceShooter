@@ -76,32 +76,19 @@ public class DestroyByContact : MonoBehaviour
 
             if (enemyKilled == 1)
             {
-                ReportAchievement("Achievement01");
+                FindObjectOfType<GameController>().ReportAchievement("Achievement01");
+                return;
             }
             if (enemyKilled == 10)
             {
-                ReportAchievement("Achievement02");
+                FindObjectOfType<GameController>().ReportAchievement("Achievement02");
+                return;
             }
             if (enemyKilled == 100)
             {
-                ReportAchievement("Achievement03");
+                FindObjectOfType<GameController>().ReportAchievement("Achievement03");
+                return;
             }
         }
-    }
-
-    private void ReportAchievement(string id)
-    {
-        Social.ReportProgress(id, 100, success =>
-        {
-            if (success)
-            {
-                print("Success report: " + id);
-            }
-            else
-            {
-                print("Report failed: " + id);
-            }
-        });
-        PlayerPrefs.SetInt(id, 100);
     }
 }
