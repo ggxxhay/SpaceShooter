@@ -1,17 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: e7d80c96fb471a246ab59da2999b166a
-timeCreated: 1526545931
-licenseType: Free
-=======
-guid: 7ca20a79ed8246098137c44d4fc18540
 labels:
 - gvh
-- gvh_targets-editor
 - gvh_version-1.2.61.0
-timeCreated: 1473798236
-licenseType: Pro
->>>>>>> feature/newDevelop
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
