@@ -40,17 +40,40 @@ public class DestroyByContact : MonoBehaviour
         {
             Transform playerBulletTransform = other.transform;
 
-            PlayerBullet playerBullet = playerBulletTransform.GetComponent<PlayerBullet>();
+            Bullet playerBullet = playerBulletTransform.GetComponent<Bullet>();
 
             // Change player bullet's position to invisible zone
-            playerBulletTransform.position = Boundary.InvisibleZonePLayerBullet;
+            playerBulletTransform.position = Boundary.InvisibleZoneBullet;
 
-            playerBullet.isActive = false;
+            // Change pooling status to inactive
+            other.GetComponent<ObjectPooling>().isActive = false;
 
             hazards.hp -= playerBullet.damage;
         }
 
         EnemyDead();
+    }
+
+    /// <summary>
+    /// Create gift
+    /// </summary>
+    private void CreateGift()
+    {
+        // Create gift for player
+        if (gameObject.tag == "Boss" || Random.Range(1, 5) == 1)
+        {
+            foreach(var gift in GameController.poolingGift)
+            {
+                if(gift.GetComponent<ObjectPooling>().isActive == false)
+                {
+                    gift.transform.position = transform.position;
+                    gift.GetComponent<ObjectPooling>().isActive = true;
+                    return;
+                }
+            }
+
+            GameController.poolingGift.Add(Instantiate(gift, transform.position, Quaternion.Euler(90, 0, 0)));
+        }
     }
 
     // Enemy health reduce to 0
@@ -61,16 +84,12 @@ public class DestroyByContact : MonoBehaviour
             // Add score
             FindObjectOfType<Score>().AddPoint(gameObject.GetComponent<Hazards>().point);
 
-            // Create gift for player
-            if (gameObject.tag == "Boss" || Random.Range(1, 5) == 1)
-            {
-                Instantiate(gift, transform.position, Quaternion.Euler(90, 0, 0));
-            }
+            CreateGift();
 
             // Create Explosion
             Instantiate(explosion, transform.position, transform.rotation);
 
-            Destroy(gameObject);
+            FindObjectOfType<GameController>().RemovePoolingObject(gameObject);
 
             // Count on enemy killed
             enemyKilled++;

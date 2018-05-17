@@ -24,11 +24,19 @@ public class Score : MonoBehaviour
         scoreUI.text = "Score: " + score;
     }
 
+    /// <summary>
+    /// Add point to player's score
+    /// </summary>
+    /// <param name="point"></param>
     public void AddPoint(int point)
     {
         score += point;
     }
 
+    /// <summary>
+    /// Get score value
+    /// </summary>
+    /// <returns></returns>
     public int GetScore()
     {
         return score;
