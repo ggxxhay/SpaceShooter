@@ -126,10 +126,10 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 9b67b83d81add0a5fcb731496b734c62 Assembly-CSharp.dll:.LevelManager
 ca60dfd40465205ae76c6d3e60a7e88a Assembly-CSharp.dll:.Done_EvasiveManeuver
 beb58129bd23c878c3b6aed4be02a11a Assembly-CSharp.dll:.AchievementManager
-ed5a77eed99bb76ab974494162914451 Assembly-CSharp.dll:.HighScore
+a19972298a2d4c47ee3a681799e91ebb Assembly-CSharp.dll:.HighScore
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Setting
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Assets.SimpleAndroidNotifications.NotificationExample
-d896d60a4586120de70df7c77692e91e Assembly-CSharp.dll:.ShopManager
+a409f3e237c9ad1d7b4dd831ee7d7963 Assembly-CSharp.dll:.ShopManager
 c37d1c326e418bcde90e97e4d0eb74c9 Assembly-CSharp.dll:.Done_DestroyByContact
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -170,6 +170,7 @@ a6cdd6b81af37b04e35f62370188be69 Assembly-CSharp.dll:.Enemy
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 451c296871c22b70c8c3577ef67ce542 Assembly-CSharp.dll:.Score
 e90505838659769eff22baa4beb9058f Assembly-CSharp.dll:.Player
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Drag
 85ae836fe3814eb4d4896d863841de8c Assembly-CSharp.dll:.Done_PlayerController
 4c4e5bbdfb8b8f4d80c5ad7176b30d43 Assembly-CSharp.dll:.Done_RandomRotator
 dd5481137759597d614818793c90a7fe Assembly-CSharp.dll:.Background
@@ -178,4 +179,3 @@ ce09cb02e2f857c8aa562f2552261f90 Assembly-CSharp.dll:.PlayerBullet
 4c4e5bbdfb8b8f4d80c5ad7176b30d43 Assembly-CSharp.dll:.Asteroid
 c55f73f8f1562b6824faf4063dd4b0fd Assembly-CSharp.dll:.Explosion
 a0dcef889bcbbdb0a398c4e8e4b8e14b Assembly-CSharp.dll:.Done_GameController
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Drag

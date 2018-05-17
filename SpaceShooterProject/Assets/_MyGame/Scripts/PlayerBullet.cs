@@ -5,4 +5,5 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour {
 
     public int damage = 1;
+    public bool isActive = true;
 }
