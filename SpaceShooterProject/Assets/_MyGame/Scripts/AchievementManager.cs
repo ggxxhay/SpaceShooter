@@ -8,10 +8,29 @@ public class AchievementManager : MonoBehaviour
 {
     public static string[] AchievementDescription;
 
+    // Point can receive when complete achievement
+    private int[] rewardPoint = new int[] { 5, 20, 100 };
+    // Define if reward was received or not
+    private int[] isRewardReceived;
+    private string[] rewardReceiveKeys = new string[] { "Reward1", "Reward2", "Reward3" };
+    public GameObject[] rewardButtons;
+
     public Text[] AchievementUI;
 
     // Use this for initialization
     void Start()
+    {
+        InitializeData();
+
+        LoadRewardStatus();
+
+        CreateAchievement();
+    }
+
+    /// <summary>
+    /// Setup game objects: ahicevement description, reward buttons
+    /// </summary>
+    private void InitializeData()
     {
         AchievementDescription = new string[]
         {
@@ -19,7 +38,37 @@ public class AchievementManager : MonoBehaviour
             "Kill 10 enemies",
             "Kill 100 enemies"
         };
-        CreateAchievement();
+
+        //rewardButtons = new GameObject[]
+        //{
+        //    GameObject.Find("Reward"),
+        //    GameObject.Find("Reward1"),
+        //    GameObject.Find("Reward2")
+        //};
+    }
+
+    /// <summary>
+    /// Load status received or not of rewards
+    /// </summary>
+    private void LoadRewardStatus()
+    {
+        isRewardReceived = new int[rewardPoint.Length];
+
+        for (int i = 0; i < rewardPoint.Length; i++)
+        {
+            isRewardReceived[i] = PlayerPrefs.GetInt(rewardReceiveKeys[i]);
+        }
+    }
+
+    /// <summary>
+    /// Save status received or not of rewards
+    /// </summary>
+    private void SaveRewardStatus()
+    {
+        for (int i = 0; i < rewardPoint.Length; i++)
+        {
+            PlayerPrefs.SetInt(rewardReceiveKeys[i], isRewardReceived[i]);
+        }
     }
 
     /// <summary>
@@ -52,7 +101,9 @@ public class AchievementManager : MonoBehaviour
         });
     }
 
-    // Show ahievement UI
+    /// <summary>
+    /// Show ahievement UI
+    /// </summary>
     public void LoadAchievement()
     {
         Social.LoadAchievements(achievements =>
@@ -73,11 +124,12 @@ public class AchievementManager : MonoBehaviour
                     Debug.Log(myAchievements);
 
                     // Display achievement to UI text
-                    AchievementUI[i].text = " " + AchievementDescription[i] + ": " + achievement.percentCompleted + "%";
+                    //AchievementUI[i].text = " " + AchievementDescription[i] + ": " + achievement.percentCompleted + "%";
                     if (achievement.percentCompleted == 100)
                     {
                         AchievementUI[i].color = Color.yellow;
                     }
+                    LoadRewardButton(i, achievement.percentCompleted);
                     i++;
                     if (i > AchievementUI.Length - 1)
                     {
@@ -90,5 +142,37 @@ public class AchievementManager : MonoBehaviour
                 Debug.Log("No achievements returned");
             }
         });
+    }
+
+    /// <summary>
+    /// Load status of reward button
+    /// </summary>
+    /// <param name="buttinIndex">Index of button</param>
+    /// <param name="percentCompleted">Percent completed of achivement</param>
+    private void LoadRewardButton(int buttinIndex, double percentCompleted)
+    {
+        if (percentCompleted == 100 && isRewardReceived[buttinIndex] == 0)
+        {
+            rewardButtons[buttinIndex].SetActive(true);
+        }
+        else
+        {
+            rewardButtons[buttinIndex].SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Receive reward when user click on reward button
+    /// </summary>
+    public void RewardButtonClick(int buttonIndex)
+    {
+        // Receive and save reward
+        int currentPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
+        PlayerPrefs.SetInt(Keys.totalScoreKey, currentPoint + rewardPoint[buttonIndex]);
+
+        // Change reward and button information
+        rewardButtons[buttonIndex].SetActive(false);
+        isRewardReceived[buttonIndex] = 1;
+        SaveRewardStatus();
     }
 }

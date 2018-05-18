@@ -141,7 +141,6 @@ public class LevelManager : MonoBehaviour
 
                     GetComponent<HighScore>().DisplayHighScores();
                 }
-
                 break;
             }
         }
