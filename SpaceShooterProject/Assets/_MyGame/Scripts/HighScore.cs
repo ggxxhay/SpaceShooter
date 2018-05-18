@@ -40,7 +40,7 @@ public class HighScore : MonoBehaviour
     /// <summary>
     /// Get saved highScores data
     /// </summary>
-    private void GetHighScores()
+    public void GetHighScores()
     {
         for (int i = 0; i < highScoresKeys.Length; i++)
         {
@@ -90,14 +90,6 @@ public class HighScore : MonoBehaviour
         print("Accessing score info!!!!!!!!");
 
         UpdateHighScore(score);
-        //for (int i = 0; i < highScoresArray.Length; i++)
-        //{
-        //    if (highScoresArray[i] <= score)
-        //    {
-        //        highScoresArray[i] = score;
-        //        break;
-        //    }
-        //}
 
         // Save highScores
         for (int i = 0; i < highScoresKeys.Length; i++)

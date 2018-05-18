@@ -30,10 +30,11 @@ public class ShopManager : MonoBehaviour
     GameObject noticeText;
 
     Text priceUI;
-    Text totalPointUI;
+    [HideInInspector]
+    public Text TotalPointUI;
 
     // Player's saved point
-    private int playerPoint;
+    public static int PlayerPoint;
 
     // Use this for initialization
     void Start()
@@ -48,7 +49,7 @@ public class ShopManager : MonoBehaviour
         currentSkinIndexKey = "skinIndex";
 
         // Get player saved point
-        playerPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
+        PlayerPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
 
         // Get current selected skin index
         currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
@@ -56,9 +57,20 @@ public class ShopManager : MonoBehaviour
         currentSkinSelected = currentSkinIndex;
 
         priceUI = GameObject.Find("Price").GetComponent<Text>();
-        totalPointUI = GameObject.Find("Point").GetComponent<Text>();
+        TotalPointUI = GameObject.Find("Point").GetComponent<Text>();
 
         ShopBegin();
+    }
+
+    private void Update()
+    {
+        // Update variable for Shop menu.
+        if (Player.activeSelf == false)
+        {
+            Player.SetActive(true); 
+        }
+        ShopManager.PlayerPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
+        GetComponent<ShopManager>().TotalPointUI.text = "Your money: " + PlayerPrefs.GetInt(Keys.totalScoreKey);
     }
 
     /// <summary>
@@ -81,7 +93,7 @@ public class ShopManager : MonoBehaviour
         ChangeButtonStatus();
 
         // Set point to point UI text
-        totalPointUI.text = "Your money: " + playerPoint.ToString();
+        TotalPointUI.text = "Your money: " + PlayerPoint.ToString();
     }
 
     /// <summary>
@@ -177,9 +189,9 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void BuyButtonCLick()
     {
-        if (playerPoint >= PricesArray[currentSkinIndex])
+        if (PlayerPoint >= PricesArray[currentSkinIndex])
         {
-            playerPoint -= PricesArray[currentSkinIndex];
+            PlayerPoint -= PricesArray[currentSkinIndex];
             PricesArray[currentSkinIndex] = 0;
 
             // Define that this skin was bought
@@ -191,27 +203,11 @@ public class ShopManager : MonoBehaviour
             selectButton.GetComponent<Text>().text = "Select";
 
             // Set point to point UI text
-            totalPointUI.text = "Your point: " + playerPoint.ToString();
+            TotalPointUI.text = "Your point: " + PlayerPoint.ToString();
         }
         else
         {
-            StartCoroutine(Notify());
-        }
-    }
-
-    /// <summary>
-    /// Notify player about money problem.
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator Notify()
-    {
-        noticeText.SetActive(true);
-        for (int i = 0; i < 5; i++)
-        {
-            noticeText.GetComponent<Text>().text = "";
-            yield return new WaitForSeconds(0.15f);
-            noticeText.GetComponent<Text>().text = "Not enough money!";
-            yield return new WaitForSeconds(0.15f);
+            StartCoroutine(FindObjectOfType<LevelManager>().Notify(noticeText, "Not enough money!"));
         }
     }
 

@@ -25,9 +25,13 @@ public class LevelManager : MonoBehaviour
 
     static private bool once = true;
 
+    //public static GameObject instance = null;
+
     private void Start()
     {
-        PlayerPrefs.DeleteAll();
+        //InitializeSingleton();
+
+        //PlayerPrefs.DeleteAll();
         //PlayerPrefs.DeleteKey(Keys.enemyKilledKey);
 
         Assets.SimpleAndroidNotifications.NotificationManager.CancelAll();
@@ -49,6 +53,34 @@ public class LevelManager : MonoBehaviour
     {
         Escape();
     }
+
+    //public void InitializeSingleton()
+    //{
+    //    if (instance == null)
+    //    {
+    //        instance = this.gameObject;
+    //        mainMenu = GameObject.Find("Menu");
+    //        backButton = GameObject.Find("Back");
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject);
+    //        //Destroy(mainMenu.gameObject);
+    //        //Destroy(backButton.gameObject);
+    //        //foreach (var menu in otherMenus)
+    //        //{
+    //        //    Destroy(menu.gameObject);
+    //        //}
+    //    }
+
+    //    DontDestroyOnLoad(instance);
+    //    DontDestroyOnLoad(mainMenu.gameObject);
+    //    DontDestroyOnLoad(backButton.gameObject);
+    //    foreach (var menu in otherMenus)
+    //    {
+    //        DontDestroyOnLoad(menu.gameObject);
+    //    }
+    //}
 
     /// <summary>
     /// Execution when escape button pressed
@@ -141,7 +173,7 @@ public class LevelManager : MonoBehaviour
                 if(menuName == "HighScoreMenu")
                 {
                     //GetComponent<LeaderboardManager>().ShowScore();
-
+                    
                     GetComponent<HighScore>().DisplayHighScores();
                 }
                 break;
@@ -161,12 +193,29 @@ public class LevelManager : MonoBehaviour
         // Save prices and skin color when out shop menu
         if (menuTemp.name == "ShopMenu")
         {
-            Destroy(FindObjectOfType<ShopManager>().Player);
+            //Destroy(FindObjectOfType<ShopManager>().Player.gameObject);
+            FindObjectOfType<ShopManager>().Player.SetActive(false);
             FindObjectOfType<ShopManager>().SaveInfo();
         }
 
         menuTemp.SetActive(false);
 
         backButton.SetActive(false);
+    }
+
+    /// <summary>
+    /// Notify player about money problem.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator Notify(GameObject noticeText, string message)
+    {
+        noticeText.SetActive(true);
+        for (int i = 0; i < 5; i++)
+        {
+            noticeText.GetComponent<Text>().text = "";
+            yield return new WaitForSeconds(0.15f);
+            noticeText.GetComponent<Text>().text = message;
+            yield return new WaitForSeconds(0.15f);
+        }
     }
 }

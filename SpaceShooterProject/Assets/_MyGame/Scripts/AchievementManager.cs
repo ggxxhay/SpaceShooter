@@ -16,6 +16,7 @@ public class AchievementManager : MonoBehaviour
     public GameObject[] rewardButtons;
 
     public Text[] AchievementUI;
+    public GameObject NoticeText;
 
     // Use this for initialization
     void Start()
@@ -39,6 +40,8 @@ public class AchievementManager : MonoBehaviour
             "Kill 100 enemies"
         };
 
+        NoticeText.SetActive(false);
+
         //rewardButtons = new GameObject[]
         //{
         //    GameObject.Find("Reward"),
@@ -52,22 +55,11 @@ public class AchievementManager : MonoBehaviour
     /// </summary>
     private void LoadRewardStatus()
     {
-        isRewardReceived = new int[rewardPoint.Length];
+        isRewardReceived = new int[] { 0, 0, 0 };
 
         for (int i = 0; i < rewardPoint.Length; i++)
         {
             isRewardReceived[i] = PlayerPrefs.GetInt(rewardReceiveKeys[i]);
-        }
-    }
-
-    /// <summary>
-    /// Save status received or not of rewards
-    /// </summary>
-    private void SaveRewardStatus()
-    {
-        for (int i = 0; i < rewardPoint.Length; i++)
-        {
-            PlayerPrefs.SetInt(rewardReceiveKeys[i], isRewardReceived[i]);
         }
     }
 
@@ -145,7 +137,7 @@ public class AchievementManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Load status of reward button
+    /// Load status of reward button.
     /// </summary>
     /// <param name="buttinIndex">Index of button</param>
     /// <param name="percentCompleted">Percent completed of achivement</param>
@@ -162,17 +154,31 @@ public class AchievementManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Receive reward when user click on reward button
+    /// Receive reward when user click on reward button.
     /// </summary>
     public void RewardButtonClick(int buttonIndex)
     {
-        // Receive and save reward
+        // Receive and save reward.
         int currentPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
         PlayerPrefs.SetInt(Keys.totalScoreKey, currentPoint + rewardPoint[buttonIndex]);
 
-        // Change reward and button information
+        StartCoroutine(FindObjectOfType<LevelManager>().
+            Notify(NoticeText, "You have received " + rewardPoint[buttonIndex] + " gold"));
+
+        // Change reward and button information.
         rewardButtons[buttonIndex].SetActive(false);
         isRewardReceived[buttonIndex] = 1;
         SaveRewardStatus();
+    }
+
+    /// <summary>
+    /// Save status received or not of rewards.
+    /// </summary>
+    private void SaveRewardStatus()
+    {
+        for (int i = 0; i < rewardPoint.Length; i++)
+        {
+            PlayerPrefs.SetInt(rewardReceiveKeys[i], isRewardReceived[i]);
+        }
     }
 }
