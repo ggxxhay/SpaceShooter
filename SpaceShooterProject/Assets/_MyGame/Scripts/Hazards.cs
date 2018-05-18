@@ -5,11 +5,14 @@ using UnityEngine;
 public class Hazards : MonoBehaviour
 {
 
-    // Hazards health
+    // Hazards health.
     public int hp;
 
-    // Hazards kill point
+    // Hazards kill point.
     public int point;
+
+    // Used in pooling.
+    public bool isActive;
 
     public GameObject gift;
 

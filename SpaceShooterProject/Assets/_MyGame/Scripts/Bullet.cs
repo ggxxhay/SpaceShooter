@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBullet : MonoBehaviour {
+public class Bullet : MonoBehaviour {
 
     public int damage = 1;
-    public bool isActive = true;
 }

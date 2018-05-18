@@ -247,6 +247,7 @@
     <Compile Include="Assets\_MyGame\Scripts\AchievementManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Asteroid.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Background.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\Bullet.cs" />
     <Compile Include="Assets\_MyGame\Scripts\DestroyArea.cs" />
     <Compile Include="Assets\_MyGame\Scripts\DestroyByContact.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Enemy.cs" />
@@ -256,8 +257,8 @@
     <Compile Include="Assets\_MyGame\Scripts\HighScore.cs" />
     <Compile Include="Assets\_MyGame\Scripts\LevelManager.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Mover.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\ObjectPooling.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Player.cs" />
-    <Compile Include="Assets\_MyGame\Scripts\PlayerBullet.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Score.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Setting.cs" />
     <Compile Include="Assets\_MyGame\Scripts\ShopManager.cs" />

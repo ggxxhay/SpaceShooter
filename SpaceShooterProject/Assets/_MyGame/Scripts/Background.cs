@@ -21,7 +21,9 @@ public class Background : MonoBehaviour {
         }
     }
 
-    // Change background's offset frequently => background moving
+    /// <summary>
+    /// Change background's offset frequently => background moving
+    /// </summary>
     void Update () {
         float y = Mathf.Repeat(Time.time * speed, 1);
         Vector2 offset = new Vector2(0, y);

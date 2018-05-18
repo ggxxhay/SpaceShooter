@@ -9,9 +9,11 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Boundary
 {
-    public float xMax = 5.2f, xMin = -5.2f, zMax = 5f, zMin = -9.15f;
+    public float xMax = 5.7f, xMin = -5.7f, zMax = 5f, zMin = -9.15f;
 
-    public static Vector3 InvisibleZonePLayerBullet = new Vector3(0, 0, 15);
+    public static Vector3 InvisibleZoneBullet = new Vector3(15, 0, 0);
+
+    public static Vector3 InvisibleZoneEnemy = new Vector3(-15, 0, 15);
 }
 
 public class Player : MonoBehaviour
@@ -41,7 +43,7 @@ public class Player : MonoBehaviour
     private Vector3 screenPoint;
     private Vector3 offset;
 
-    // Define if user is touching screen, use in moving player
+    // Define if user is touching screen, used in moving player
     private bool isTouched;
 
     // Use this for initialization
@@ -85,13 +87,11 @@ public class Player : MonoBehaviour
 
             foreach (var bullet in poolingBullets)
             {
-                PlayerBullet pBullet = bullet.GetComponent<PlayerBullet>();
-
                 // If the bullet is not active, shoot it.
-                if (pBullet.isActive == false)
+                if (bullet.GetComponent<ObjectPooling>().isActive == false)
                 {
-                    pBullet.transform.position = transform.position;
-                    pBullet.isActive = true;
+                    bullet.transform.position = transform.position;
+                    bullet.GetComponent<ObjectPooling>().isActive = true;
                     nextFire = Time.time + shotDelay;
                     return;
                 }
@@ -105,7 +105,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Change bullet type
+    /// <summary>
+    /// Change bullet type (used for testing)
+    /// </summary>
     private void ChangeBullet()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -118,12 +120,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Move Player
+    /// <summary>
+    /// Move Player with keyboard
+    /// </summary>
     private void Move()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(moveHorizontal, 0, moveVertical).normalized;
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(moveHorizontal, 0, moveVertical);
         GetComponent<Rigidbody>().velocity = direction * speed;
         Vector3 pos = transform.position;
 
@@ -137,6 +141,9 @@ public class Player : MonoBehaviour
         GetComponent<Rigidbody>().rotation = Quaternion.Euler(0f, 0f, GetComponent<Rigidbody>().velocity.x * -tilt);
     }
 
+    /// <summary>
+    /// Move Player with screen touching
+    /// </summary>
     private void MoveByTouch()
     {
         if (Input.touchCount > 0)
@@ -191,6 +198,10 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(cursorPosition.x, 0, cursorPosition.z);
     }
 
+    /// <summary>
+    /// Execution when player collide with enemy bullet and gift
+    /// </summary>
+    /// <param name="other">The other collider: enemy bullet or gift</param>
     private void OnTriggerEnter(Collider other)
     {
         string layer = LayerMask.LayerToName(other.gameObject.layer);
@@ -200,14 +211,13 @@ public class Player : MonoBehaviour
         {
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
-            Destroy(other.gameObject);
         }
-        // Destroy gift, increase player bullet's damage when player collision with gift
-        else if (layer == "Gift")
+        if(layer == "Gift")
         {
             ChangeBulletType();
-            Destroy(other.gameObject);
         }
+
+        FindObjectOfType<GameController>().RemovePoolingObject(other.gameObject);
     }
 
     /// <summary>
@@ -236,12 +246,12 @@ public class Player : MonoBehaviour
         {
             if (isBulletTypeUpdated)
             {
-                poolingBullets[i].GetComponent<PlayerBullet>().damage++;
+                poolingBullets[i].GetComponent<Bullet>().damage++;
             }
             else
             {
                 poolingBullets[i] = bullets[bulletType];
-                poolingBullets[i].GetComponent<PlayerBullet>().isActive = false;
+                //poolingBullets[i].GetComponent<ObjectPooling>().isActive = false;
             }
         }
     }
@@ -256,12 +266,9 @@ public class Player : MonoBehaviour
         FindObjectOfType<GameController>().GameOver();
     }
 
-    public void AchievementNotice()
-    {
-
-    }
-
-    // Return to Main menu
+    /// <summary>
+    /// Return to Main menu
+    /// </summary>
     public void ToMainMenu()
     {
         SceneManager.LoadScene("Menu");
