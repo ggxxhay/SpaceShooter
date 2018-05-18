@@ -6,7 +6,7 @@ Assets/_MyGame/Scenes/Menu.unity
 Assets/_MyGame/Scenes/MainGame.unity
 Assets/SimpleAndroidNotifications/DemoScene.unity
 SceneListEnd?
-ed38c81c134c5ef6179863ba412ba12c Assembly-CSharp.dll:.Hazards
+8d79f00ce9169ee22e0987ee37977073 Assembly-CSharp.dll:.Hazards
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 4b12dd839b2293f8457cd67cc3610b85 UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
 8144169769d51429c4aedc8b0f92d47b UnityEngine.Timeline.dll:UnityEngine.Timeline.AnimationPlayableAsset
@@ -125,7 +125,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 9b67b83d81add0a5fcb731496b734c62 Assembly-CSharp.dll:.LevelManager
 ca60dfd40465205ae76c6d3e60a7e88a Assembly-CSharp.dll:.Done_EvasiveManeuver
-beb58129bd23c878c3b6aed4be02a11a Assembly-CSharp.dll:.AchievementManager
+2179fe22b7f515b0f90a327d2619b737 Assembly-CSharp.dll:.AchievementManager
 a19972298a2d4c47ee3a681799e91ebb Assembly-CSharp.dll:.HighScore
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Setting
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Assets.SimpleAndroidNotifications.NotificationExample
@@ -166,16 +166,17 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-a6cdd6b81af37b04e35f62370188be69 Assembly-CSharp.dll:.Enemy
+51f2a2297f285fe580a1858120d17b3c Assembly-CSharp.dll:.Enemy
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
-451c296871c22b70c8c3577ef67ce542 Assembly-CSharp.dll:.Score
-e90505838659769eff22baa4beb9058f Assembly-CSharp.dll:.Player
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Score
+30fda4a9bf2f346a3a17f74787b70a17 Assembly-CSharp.dll:.Player
+47dc1bea2bbc4503384780f03b4e532f Assembly-CSharp.dll:.ObjectPooling
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Drag
 85ae836fe3814eb4d4896d863841de8c Assembly-CSharp.dll:.Done_PlayerController
 4c4e5bbdfb8b8f4d80c5ad7176b30d43 Assembly-CSharp.dll:.Done_RandomRotator
 dd5481137759597d614818793c90a7fe Assembly-CSharp.dll:.Background
 e6620c373ab7ec2b45024da89745a65e Assembly-CSharp.dll:.Done_BGScroller
-ce09cb02e2f857c8aa562f2552261f90 Assembly-CSharp.dll:.PlayerBullet
+ce09cb02e2f857c8aa562f2552261f90 Assembly-CSharp.dll:.Bullet
 4c4e5bbdfb8b8f4d80c5ad7176b30d43 Assembly-CSharp.dll:.Asteroid
 c55f73f8f1562b6824faf4063dd4b0fd Assembly-CSharp.dll:.Explosion
 a0dcef889bcbbdb0a398c4e8e4b8e14b Assembly-CSharp.dll:.Done_GameController

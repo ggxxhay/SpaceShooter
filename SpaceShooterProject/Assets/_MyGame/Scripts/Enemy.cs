@@ -42,21 +42,8 @@ public class Enemy : MonoBehaviour
     {
         GetComponent<AudioSource>().Play();
 
-        // Find inactive bullet shoot it
-        foreach (var eBullet in GameController.poolingEnemyBullets)
-        {
-            if (!eBullet.GetComponent<ObjectPooling>().isActive)
-            {
-                eBullet.transform.position = shotPosition.position;
-                eBullet.transform.rotation = shotPosition.rotation;         // Error rotation????
-                //eBullet.transform.rotation = Quaternion.Euler(0, 0, 0);
-                eBullet.GetComponent<ObjectPooling>().isActive = true;
-                return;
-            }
-        }
-
-        // Create new bullet if there is not any available
-        GameController.poolingEnemyBullets.Add(Instantiate(bullet, shotPosition.position, shotPosition.rotation));
+        FindObjectOfType<GameController>().
+            SpawnPoolingObject(shotPosition.position, shotPosition.rotation, bullet, GameController.poolingEnemyBullets);
     }
 
     // Update is called once per frame

@@ -55,36 +55,35 @@ public class DestroyByContact : MonoBehaviour
     }
 
     /// <summary>
-    /// Create gift
+    /// Instantiate gift object
     /// </summary>
     private void CreateGift()
     {
         // Create gift for player
         if (gameObject.tag == "Boss" || Random.Range(1, 5) == 1)
         {
-            foreach(var gift in GameController.poolingGift)
-            {
-                if(gift.GetComponent<ObjectPooling>().isActive == false)
-                {
-                    gift.transform.position = transform.position;
-                    gift.GetComponent<ObjectPooling>().isActive = true;
-                    return;
-                }
-            }
-
-            GameController.poolingGift.Add(Instantiate(gift, transform.position, Quaternion.Euler(90, 0, 0)));
+            FindObjectOfType<GameController>().SpawnPoolingObject(transform.position, Quaternion.Euler(90, 0, 0), 
+                                                                 gift, GameController.poolingGift);
         }
     }
 
-    // Enemy health reduce to 0
+    /// <summary>
+    /// Execution when enemy is dead
+    /// </summary>
     private void EnemyDead()
     {
+        // Có thể tại máu dưới 0 mà khi ra safe zone, gift vẫn được tạo thêm 1 lần.
         if (hazards.hp <= 0 && FindObjectOfType<Player>() != null)
         {
             // Add score
             FindObjectOfType<Score>().AddPoint(gameObject.GetComponent<Hazards>().point);
 
-            CreateGift();
+            // Create the gift if the dead enemy is boss, or random as rate 1/5
+            if (gameObject.tag == "Boss" || Random.Range(1, 5) == 1)
+            {
+                FindObjectOfType<GameController>().SpawnPoolingObject(transform.position, Quaternion.Euler(90, 0, 0),
+                                                                     gift, GameController.poolingGift);
+            }
 
             // Create Explosion
             Instantiate(explosion, transform.position, transform.rotation);

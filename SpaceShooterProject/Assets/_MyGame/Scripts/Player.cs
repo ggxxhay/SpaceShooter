@@ -11,7 +11,7 @@ public class Boundary
 {
     public float xMax = 5.7f, xMin = -5.7f, zMax = 5f, zMin = -9.15f;
 
-    public static Vector3 InvisibleZoneBullet = new Vector3(15, 0, 15);
+    public static Vector3 InvisibleZoneBullet = new Vector3(15, 0, 0);
 
     public static Vector3 InvisibleZoneEnemy = new Vector3(-15, 0, 15);
 }
@@ -125,9 +125,9 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(moveHorizontal, 0, moveVertical).normalized;
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(moveHorizontal, 0, moveVertical);
         GetComponent<Rigidbody>().velocity = direction * speed;
         Vector3 pos = transform.position;
 
@@ -251,7 +251,7 @@ public class Player : MonoBehaviour
             else
             {
                 poolingBullets[i] = bullets[bulletType];
-                poolingBullets[i].GetComponent<ObjectPooling>().isActive = false;
+                //poolingBullets[i].GetComponent<ObjectPooling>().isActive = false;
             }
         }
     }

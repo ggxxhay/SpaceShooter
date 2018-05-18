@@ -20,4 +20,13 @@ public class Mover : MonoBehaviour {
             GetComponent<Rigidbody>().velocity = transform.forward * speed;
         }
     }
+
+    private void Update()
+    {
+        // Change the moving of enemy bullet when its' rotation is changed (boss case)
+        if (gameObject.tag == "EnemyBullet")
+        {
+            GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        }
+    }
 }

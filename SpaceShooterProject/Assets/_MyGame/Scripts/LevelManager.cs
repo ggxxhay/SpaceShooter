@@ -115,7 +115,10 @@ public class LevelManager : MonoBehaviour
         GameObject.Find("Setting").transform.position = new Vector3(0, 0, 0);
     }
 
-    // Change menu when a menu is clicked
+    /// <summary>
+    /// Change menu when a menu is clicked
+    /// </summary>
+    /// <param name="menuName"></param>
     public void ChangeMenu(string menuName)
     {
         mainMenu.SetActive(false);
@@ -149,7 +152,9 @@ public class LevelManager : MonoBehaviour
         backButton.SetActive(true);
     }
 
-    // Back to main menu
+    /// <summary>
+    /// Back to main menu
+    /// </summary>
     public void ToMainMenu()
     {
         mainMenu.SetActive(true);

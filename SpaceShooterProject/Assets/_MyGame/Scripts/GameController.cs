@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour
                 // Set health and point for hazards
                 foreach (var gameObject in hazards)
                 {
-                    SetHealthAndPoint(gameObject);
+                    SetHealthAndPoint(gameObject, 2, 5);
                 }
 
                 //StartCoroutine(Spawn());
@@ -105,65 +105,8 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawn the enemy
+    /// Setup scene's UI texts
     /// </summary>
-    private void SpawnHazard()
-    {
-        // Limit spawn position of hazards in boundary
-        Vector3 spawnPosition = new Vector3(Random.Range(boundary.xMin, boundary.xMax), 0, 11);
-
-        // Find inactive enemy and spawn it
-        foreach (var enemy in poolingEnemies)
-        {
-            if (enemy.GetComponent<ObjectPooling>().isActive == false)
-            {
-                enemy.transform.position = spawnPosition;
-                enemy.GetComponent<ObjectPooling>().isActive = true;
-                if(enemy.tag == "Enemy")
-                {
-                    enemy.GetComponent<Enemy>().canShoot = true;
-                }
-                SetHealthAndPoint(enemy);
-                return;
-            }
-        }
-
-        // Create new enemy
-        poolingEnemies.Add(Instantiate(hazards[Random.Range(0, hazards.Length)],
-            spawnPosition, new Quaternion(180, 0, 0, 0)));
-    }
-
-    /// <summary>
-    /// Set health and point for hazard object
-    /// </summary>
-    /// <param name="gameObject"></param>
-    private void SetHealthAndPoint(GameObject gameObject)
-    {
-        Hazards hazard = gameObject.GetComponent<Hazards>();
-        hazard.hp = currentWave * 2;
-        hazard.point = currentWave * 5;
-    }
-
-
-    /// <summary>
-    /// Spawn Boss
-    /// </summary>
-    private void SpawnBoss()
-    {
-        Hazards h = bossInstance.GetComponent<Hazards>();
-        h.hp = currentWave * 5;
-        h.point = currentWave * 10;
-        if (bossInstance.GetComponent<ObjectPooling>().isActive == false)
-        {
-            bossInstance.transform.position = new Vector3(0, 0, 11);
-            bossInstance.GetComponent<Enemy>().canShoot = true;
-            return;
-        }
-        Instantiate(boss, new Vector3(0, 0, 11), new Quaternion(180, 0, 0, 0));
-        //bossInstance.transform.position = new Vector3(0, 0, 11);
-    }
-
-    // Setup scene's UI texts
     private void InitializeUI()
     {
         ScoreUI = GameObject.Find("Score");
@@ -175,23 +118,116 @@ public class GameController : MonoBehaviour
         };
     }
 
-    public void RemovePoolingObject(GameObject go)
+    /// <summary>
+    /// Spawn the enemy
+    /// </summary>
+    private void SpawnHazard()
     {
-        go.GetComponent<ObjectPooling>().isActive = false;
+        // Limit spawn position of hazards in boundary
+        Vector3 spawnPosition = new Vector3(Random.Range(boundary.xMin, boundary.xMax), 0, 11);
 
-        string layerName = LayerMask.LayerToName(go.layer);
+        SpawnPoolingObject(spawnPosition, Quaternion.Euler(180, 0, 0),
+            hazards[Random.Range(0, hazards.Length)], poolingEnemies);
+    }
 
-        if(layerName == "EnemyBullet" || layerName == "PlayerBullet")
+    /// <summary>
+    /// Spawn method used for hazards, gift
+    /// </summary>
+    /// <param name="spawnPosition">Position to spawn</param>
+    /// <param name="spawnRotation">Object's rotation</param>
+    /// <param name="instance">Prefab to instantiate</param>
+    /// <param name="poolingList">Pooling objects list</param>
+    public void SpawnPoolingObject(Vector3 spawnPosition, Quaternion spawnRotation,
+                                    GameObject instance, List<GameObject> poolingList)
+    {
+        print("Spawning");
+        foreach (var poolingObject in poolingList)
         {
-            go.transform.position = Boundary.InvisibleZoneBullet;
+            // If the object is not active, then activate and spawn it.
+            if (poolingObject.GetComponent<ObjectPooling>().isActive == false)
+            {
+                poolingObject.transform.position = spawnPosition;
+                poolingObject.transform.rotation = spawnRotation;
+                poolingObject.GetComponent<ObjectPooling>().isActive = true;
+
+                if (poolingObject.tag == "Enemy" || poolingObject.tag == "Asteroid")
+                {
+                    SetHealthAndPoint(poolingObject, 2, 5);
+                    if (poolingObject.tag == "Enemy")
+                    {
+                        poolingObject.GetComponent<Enemy>().canShoot = true;
+                    }
+                }
+
+                return;
+            }
+        }
+
+        // If there is no available object, create a new one
+        poolingList.Add(Instantiate(instance, spawnPosition, spawnRotation));
+        print("Spawning ------ Done");
+    }
+
+    /// <summary>
+    /// Set health and point for hazard object
+    /// </summary>
+    /// <param name="gameObject">Hazard object</param>
+    /// <param name="hpRate">Health rate</param>
+    /// <param name="pointRate">Point rate</param>
+    private void SetHealthAndPoint(GameObject gameObject, int hpRate, int pointRate)
+    {
+        Hazards hazard = gameObject.GetComponent<Hazards>();
+        hazard.hp = currentWave * hpRate;
+        hazard.point = currentWave * pointRate;
+    }
+
+
+    /// <summary>
+    /// Spawn Boss
+    /// </summary>
+    private void SpawnBoss()
+    {
+        if (bossInstance == null)
+        {
+            SetHealthAndPoint(boss, 5, 10);
+
+            bossInstance = Instantiate(boss, new Vector3(0, 0, 11), new Quaternion(180, 0, 0, 0));
         }
         else
         {
-            go.transform.position = Boundary.InvisibleZoneEnemy;
-            if(layerName == "Boss" || layerName == "Enemy")
+            SetHealthAndPoint(bossInstance, 5, 10);
+            
+            bossInstance.transform.position = new Vector3(0, 0, 11);
+            bossInstance.GetComponent<Enemy>().canShoot = true;
+            return;
+        }
+    }
+    
+    /// <summary>
+    /// Remove pooling object to invisible zone
+    /// </summary>
+    /// <param name="poolingObject">Game object to remove</param>
+    public void RemovePoolingObject(GameObject poolingObject)
+    {
+        poolingObject.GetComponent<ObjectPooling>().isActive = false;
+
+        string layerName = LayerMask.LayerToName(poolingObject.layer);
+
+        if (layerName == "EnemyBullet" || layerName == "PlayerBullet")
+        {
+            poolingObject.transform.position = Boundary.InvisibleZoneBullet;
+        }
+        else
+        {
+            if (layerName == "Boss" || layerName == "Enemy" || layerName == "Asteroid")
             {
-                go.GetComponent<Enemy>().canShoot = false;
+                poolingObject.GetComponent<Hazards>().hp = 1;
+                if (layerName == "Boss" || layerName == "Enemy")
+                {
+                    poolingObject.GetComponent<Enemy>().canShoot = false;
+                }
             }
+            poolingObject.transform.position = Boundary.InvisibleZoneEnemy;
         }
     }
 

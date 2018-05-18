@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectPooling : MonoBehaviour {
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool isActive;
 
     private void Start()
