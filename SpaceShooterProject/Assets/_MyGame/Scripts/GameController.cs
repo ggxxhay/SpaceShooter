@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
     // Hazrad alive
     //public int hazardsAlive;
 
-    public int currentWave;
+    public int currentWave = 0;
 
     // Time to spawn other hazard in a wave
     public float spawnWaitTime = 3f;
@@ -36,11 +36,13 @@ public class GameController : MonoBehaviour
     public bool isRunning;
 
     // Delay time for waves
-    public WaitForSeconds WaveDelay = new WaitForSeconds(1f);
+    public WaitForSeconds WaveDelay = new WaitForSeconds(3f);
 
     // Texts in game scene
-    private GameObject[] GameOverTexts;
-    private GameObject ScoreUI;
+    private GameObject[] gameOverTexts;
+    private GameObject scoreUI;
+    private GameObject waveInfo;
+    public int waveInfoSpeed;
 
     // Use this for initialization
     IEnumerator Start()
@@ -51,57 +53,113 @@ public class GameController : MonoBehaviour
         poolingGift = new List<GameObject>();
 
         // Hide game over texts
-        foreach (var t in GameOverTexts)
+        foreach (var t in gameOverTexts)
         {
             t.SetActive(false);
         }
 
         while (true)
         {
-            currentWave++;
-
-            // Each 5 waves, a boss wave appear
-            if (currentWave % 5 == 0)
+            if (!gameOverTexts[1].activeSelf)
             {
-                SpawnBoss();
+                currentWave++;
+
+                // Show text inform that the wave is starting
+                StartCoroutine(Notify(waveInfo, "Wave " + currentWave));
+
+                // Each 5 waves, a boss wave appear
+                if (currentWave % 5 == 0)
+                {
+                    if (bossInstance == null)
+                    {
+                        SetHealthAndPoint(boss, 5, 10);
+                        bossInstance = Instantiate(boss, new Vector3(0, 0, 11), new Quaternion(180, 0, 0, 0));
+                    }
+                    else
+                    {
+                        SpawnBoss();
+                    }
+
+
+                    while (bossInstance.GetComponent<ObjectPooling>().isActive)
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
+                }
+                else
+                {
+                    hazardsInWave = currentWave * 5;
+
+                    // Set health and point for hazards.
+                    foreach (var gameObject in hazards)
+                    {
+                        SetHealthAndPoint(gameObject, 2, 5);
+                    }
+
+                    //StartCoroutine(Spawn());
+                    while (hazardsInWave > 0)
+                    {
+                        SpawnHazard();
+                        hazardsInWave--;
+                        yield return new WaitForSeconds(spawnWaitTime);
+                    }
+
+                    // Wait for all hazards in wave to be inactive to end the wave.
+                    foreach (var hazard in poolingEnemies)
+                    {
+                        while (hazard.GetComponent<ObjectPooling>().isActive)
+                        {
+                            yield return new WaitForEndOfFrame();
+                        }
+                    }
+                }
+
+                // Reduce hazards spawn delay each wave.
+                if (spawnWaitTime > 1)
+                {
+                    spawnWaitTime -= 0.5f;
+                }
+
+                // Show text inform that the wave is completed.
+                StartCoroutine(Notify(waveInfo, "Wave Completed!"));
+
+                yield return WaveDelay;
             }
             else
             {
-                hazardsInWave = currentWave * 5;
-
-                //hazardsAlive = hazardsInWave;
-
-                // Set health and point for hazards
-                foreach (var gameObject in hazards)
-                {
-                    SetHealthAndPoint(gameObject, 2, 5);
-                }
-
-                //StartCoroutine(Spawn());
-                while (hazardsInWave > 0)
-                {
-                    SpawnHazard();
-
-                    //hazardsAlive.Add(go);
-
-                    //if(hazardsAlive[0].gameObject == null)
-                    //{
-                    //    print("Object destroyed: " + go.ToString());
-                    //}
-
-                    hazardsInWave--;
-                    yield return new WaitForSeconds(spawnWaitTime);
-                }
+                yield break;
             }
-
-            // Reduce hazards spawn delay each wave
-            if (spawnWaitTime > 1)
-            {
-                spawnWaitTime -= 0.5f;
-            }
-
-            yield return WaveDelay;
         }
+    }
+
+    private void StartWave()
+    {
+        StartCoroutine(Notify(waveInfo, "Wave " + currentWave));
+
+    }
+
+    /// <summary>
+    /// Twinking text UI.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator Notify(GameObject noticeText, string message)
+    {
+        noticeText.SetActive(true);
+        isRunning = true;
+        for (int i = 0; i < 5; i++)
+        {
+            noticeText.GetComponent<Text>().text = "";
+            yield return new WaitForSeconds(0.15f);
+            noticeText.GetComponent<Text>().text = message;
+            yield return new WaitForSeconds(0.15f);
+        }
+        yield return new WaitForSeconds(0.5f);
+        noticeText.SetActive(false);
+    }
+
+    private void EndWave()
+    {
+
     }
 
     /// <summary>
@@ -109,9 +167,10 @@ public class GameController : MonoBehaviour
     /// </summary>
     private void InitializeUI()
     {
-        ScoreUI = GameObject.Find("Score");
+        scoreUI = GameObject.Find("Score");
+        waveInfo = GameObject.Find("WaveInfo");
 
-        GameOverTexts = new GameObject[]
+        gameOverTexts = new GameObject[]
         {
             GameObject.Find("GameOver"),
             GameObject.Find("Back")
@@ -196,13 +255,13 @@ public class GameController : MonoBehaviour
         else
         {
             SetHealthAndPoint(bossInstance, 5, 10);
-            
+
             bossInstance.transform.position = new Vector3(0, 0, 11);
+            bossInstance.GetComponent<ObjectPooling>().isActive = true;
             bossInstance.GetComponent<Enemy>().canShoot = true;
-            return;
         }
     }
-    
+
     /// <summary>
     /// Remove pooling object to invisible zone
     /// </summary>
@@ -260,14 +319,14 @@ public class GameController : MonoBehaviour
     {
         int descriptionIndex = System.Convert.ToInt32(achievementID.Substring(achievementID.Length - 1)) - 1;
 
-        GameObject noticeText = GameOverTexts[0];
+        GameObject noticeText = gameOverTexts[0];
         noticeText.SetActive(true);
         for (int i = 0; i < 5; i++)
         {
             // If the game is over, stop the coroutine.
-            if (GameOverTexts[1].activeSelf)
+            if (gameOverTexts[1].activeSelf)
             {
-                GameOverTexts[0].GetComponent<Text>().text = "Game Over";
+                gameOverTexts[0].GetComponent<Text>().text = "Game Over";
                 yield break;
             }
 
@@ -280,7 +339,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // If the game is over, stop the coroutine.
-        if (GameOverTexts[1].activeSelf)
+        if (gameOverTexts[1].activeSelf)
         {
             yield break;
         }
@@ -292,17 +351,17 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
-        GameOverTexts[0].GetComponent<Text>().text = "Game Over";
-        foreach (var t in GameOverTexts)
+        gameOverTexts[0].GetComponent<Text>().text = "Game Over";
+        foreach (var t in gameOverTexts)
         {
             t.SetActive(true);
         }
 
         // Change position and font properties of score UI text
-        RectTransform scoreUIRectTransform = ScoreUI.GetComponent<RectTransform>();
+        RectTransform scoreUIRectTransform = scoreUI.GetComponent<RectTransform>();
         scoreUIRectTransform.anchoredPosition = new Vector2(0, 0);
         scoreUIRectTransform.sizeDelta = new Vector2(400, 120);
-        ScoreUI.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
-        ScoreUI.GetComponent<Text>().fontSize = 70;
+        scoreUI.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+        scoreUI.GetComponent<Text>().fontSize = 70;
     }
 }

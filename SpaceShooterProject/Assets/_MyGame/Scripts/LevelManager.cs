@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
     private GameObject mainMenu;
     private GameObject backButton;
 
-    static private bool once = true;
+    //static private bool once = true;
 
     //public static GameObject instance = null;
 
@@ -204,7 +204,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Notify player about money problem.
+    /// Twinking text UI.
     /// </summary>
     /// <returns></returns>
     public IEnumerator Notify(GameObject noticeText, string message)
