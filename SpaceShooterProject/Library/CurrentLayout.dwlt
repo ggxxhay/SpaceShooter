@@ -71,7 +71,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 98
+  controlID: 34
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 1121, y: 271}
   m_MaxSize: {x: 26016, y: 10021}
   vertical: 0
-  controlID: 31
+  controlID: 139
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -318,9 +318,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: 962b0000
     m_LastClickedID: 0
-    m_ExpandedIDs: 18f6ffff98fbffff00000000
+    m_ExpandedIDs: e6faffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -370,7 +370,7 @@ MonoBehaviour:
     width: 275
     height: 614
   m_PersistentViewDataDictionary: {fileID: 0}
-  m_ScrollPosition: {x: 0, y: 0}
+  m_ScrollPosition: {x: 0, y: 960}
   m_InspectorMode: 0
   m_PreviewResizer:
     m_CachedPref: -160
@@ -415,7 +415,8 @@ MonoBehaviour:
     m_ScenePaths: []
     m_ShowAllHits: 0
     m_SearchArea: 0
-    m_Folders: []
+    m_Folders:
+    - Assets/_MyGame/Prefabs
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders:
@@ -427,7 +428,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: c62a0000
     m_LastClickedID: 10950
-    m_ExpandedIDs: 0000000010290000302900003e2900007029000086290000262a0000282a00007e2a0000842a00009c2a0000b82a0000d62a0000
+    m_ExpandedIDs: 00000000702a0000902a00009e2a0000d02a0000ea2a00008a2b00008c2b0000e02b0000e62b0000fe2b0000182c0000382c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -452,10 +453,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 480}
+    scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000010290000302900003e2900007029000086290000262a0000282a00007e2a0000842a00009c2a0000b82a0000d62a0000
+    m_ExpandedIDs: 00000000702a0000902a00009e2a0000d02a0000ea2a00008a2b00008c2b0000e02b0000e22b0000e62b0000fe2b0000382c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
