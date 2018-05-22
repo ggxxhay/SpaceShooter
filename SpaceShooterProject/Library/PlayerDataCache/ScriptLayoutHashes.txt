@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-D:/SpaceShooter FB Share.apk
+D:/SpaceShooter Waves Done.apk
 SceneListBegin?
 Assets/_MyGame/Scenes/Menu.unity
 Assets/_MyGame/Scenes/MainGame.unity

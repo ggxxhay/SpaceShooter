@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "724978664355",
+    "firebase_url": "https://space-shooter-b8374.firebaseio.com",
+    "project_id": "space-shooter-b8374",
+    "storage_bucket": "space-shooter-b8374.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724978664355:android:5001a812e9641c4a",
+        "android_client_info": {
+          "package_name": "com.Asd.SpaceShooterProject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "724978664355-9gbei03ab1urda3bij59lj51bs6af6lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQnuvUw91X0uay77gyQNfuIuDkSeyOqFc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

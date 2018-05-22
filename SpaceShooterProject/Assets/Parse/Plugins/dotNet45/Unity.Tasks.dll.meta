@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 34de331468d75144380d2a023843ecdd
 timeCreated: 1526972430
 licenseType: Free
@@ -27,6 +28,27 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: AnyCPU
+=======
+guid: bd18eee30834e4f71bded96fd14033a9
+labels:
+- gvh
+- gvh_dotnet-4.5
+timeCreated: 1500423342
+licenseType: Pro
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 0
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+>>>>>>> feature/newDevelop
   userData: 
   assetBundleName: 
   assetBundleVariant: 
