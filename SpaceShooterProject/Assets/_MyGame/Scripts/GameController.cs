@@ -60,27 +60,20 @@ public class GameController : MonoBehaviour
 
         while (true)
         {
+            // If the game is not over, continue spawning waves.
             if (!gameOverTexts[1].activeSelf)
             {
                 currentWave++;
 
-                // Show text inform that the wave is starting
+                // Show text inform that the wave is starting.
                 StartCoroutine(Notify(waveInfo, "Wave " + currentWave));
 
-                // Each 5 waves, a boss wave appear
+                // Each 5 waves, a boss wave appear.
                 if (currentWave % 5 == 0)
                 {
-                    if (bossInstance == null)
-                    {
-                        SetHealthAndPoint(boss, 5, 10);
-                        bossInstance = Instantiate(boss, new Vector3(0, 0, 11), new Quaternion(180, 0, 0, 0));
-                    }
-                    else
-                    {
-                        SpawnBoss();
-                    }
+                    SpawnBoss();
 
-
+                    // Wait for wave to be completed.
                     while (bossInstance.GetComponent<ObjectPooling>().isActive)
                     {
                         yield return new WaitForEndOfFrame();
@@ -130,12 +123,6 @@ public class GameController : MonoBehaviour
                 yield break;
             }
         }
-    }
-
-    private void StartWave()
-    {
-        StartCoroutine(Notify(waveInfo, "Wave " + currentWave));
-
     }
 
     /// <summary>
@@ -249,13 +236,11 @@ public class GameController : MonoBehaviour
         if (bossInstance == null)
         {
             SetHealthAndPoint(boss, 5, 10);
-
             bossInstance = Instantiate(boss, new Vector3(0, 0, 11), new Quaternion(180, 0, 0, 0));
         }
         else
         {
             SetHealthAndPoint(bossInstance, 5, 10);
-
             bossInstance.transform.position = new Vector3(0, 0, 11);
             bossInstance.GetComponent<ObjectPooling>().isActive = true;
             bossInstance.GetComponent<Enemy>().canShoot = true;

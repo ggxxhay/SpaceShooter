@@ -211,13 +211,17 @@ public class Player : MonoBehaviour
         {
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
-        }
-        if(layer == "Gift")
-        {
-            ChangeBulletType();
+            FindObjectOfType<GameController>().RemovePoolingObject(other.gameObject);
+            return;
         }
 
-        FindObjectOfType<GameController>().RemovePoolingObject(other.gameObject);
+        if (layer == "Gift")
+        {
+            ChangeBulletType();
+            FindObjectOfType<GameController>().RemovePoolingObject(other.gameObject);
+            return;
+        }
+
     }
 
     /// <summary>

@@ -1,15 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: 3afc2dec5f2292049a84305bc0f9f77f
-timeCreated: 1526972435
-licenseType: Free
-=======
-guid: 84332b074cfc4d57879987a9c5853eb1
-labels:
-- gvh
-- gvh_linuxlibname-App-4.5.2
-- gvh_version-4.5.2
->>>>>>> feature/newDevelop
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -23,11 +13,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-<<<<<<< HEAD
         CPU: None
-=======
-        CPU: AnyCPU
->>>>>>> feature/newDevelop
   - first:
       '': OSXIntel64
     second:
@@ -35,57 +21,23 @@ PluginImporter:
       settings:
         CPU: AnyCPU
   - first:
-<<<<<<< HEAD
       Any: 
     second:
       enabled: 1
-=======
-      '': Web
-    second:
-      enabled: 0
-      settings: {}
-  - first:
-      '': WebStreamed
-    second:
-      enabled: 0
-      settings: {}
-  - first:
-      Android: Android
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-  - first:
-      Any: 
-    second:
-      enabled: 0
->>>>>>> feature/newDevelop
       settings: {}
   - first:
       Editor: Editor
     second:
-<<<<<<< HEAD
       enabled: 0
       settings:
         CPU: x86_64
         DefaultValueInitialized: true
-=======
-      enabled: 1
-      settings:
-        CPU: x86_64
-        DefaultValueInitialized: true
-        OS: AnyOS
->>>>>>> feature/newDevelop
   - first:
       Facebook: Win
     second:
       enabled: 0
       settings:
-<<<<<<< HEAD
         CPU: None
-=======
-        CPU: AnyCPU
->>>>>>> feature/newDevelop
   - first:
       Facebook: Win64
     second:
@@ -97,11 +49,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-<<<<<<< HEAD
         CPU: None
-=======
-        CPU: x86
->>>>>>> feature/newDevelop
   - first:
       Standalone: Linux64
     second:
@@ -117,11 +65,7 @@ PluginImporter:
   - first:
       Standalone: OSXUniversal
     second:
-<<<<<<< HEAD
       enabled: 0
-=======
-      enabled: 1
->>>>>>> feature/newDevelop
       settings:
         CPU: x86_64
   - first:
@@ -129,33 +73,13 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-<<<<<<< HEAD
         CPU: None
-=======
-        CPU: AnyCPU
->>>>>>> feature/newDevelop
   - first:
       Standalone: Win64
     second:
       enabled: 1
       settings:
         CPU: AnyCPU
-<<<<<<< HEAD
-=======
-  - first:
-      Windows Store Apps: WindowsStoreApps
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-  - first:
-      iPhone: iOS
-    second:
-      enabled: 0
-      settings:
-        CompileFlags: 
-        FrameworkDependencies: 
->>>>>>> feature/newDevelop
   userData: 
   assetBundleName: 
   assetBundleVariant: 
