@@ -341,12 +341,13 @@ public class GameController : MonoBehaviour
         {
             t.SetActive(true);
         }
-
         // Change position and font properties of score UI text
         RectTransform scoreUIRectTransform = scoreUI.GetComponent<RectTransform>();
         scoreUIRectTransform.anchoredPosition = new Vector2(0, 0);
         scoreUIRectTransform.sizeDelta = new Vector2(400, 120);
         scoreUI.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
         scoreUI.GetComponent<Text>().fontSize = 70;
+
+        GameObject.Find("BackButton").SetActive(false);
     }
 }

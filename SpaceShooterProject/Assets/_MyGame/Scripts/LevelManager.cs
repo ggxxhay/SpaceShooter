@@ -13,17 +13,42 @@ public class Leaderboard
     static public ILeaderboard leaderboard;
 }
 
+[System.Serializable]
+public class SkinColor
+{
+    static public Color32 playerSkinColor = new Color32(255,255,255,255);
+    static public string currentSkinIndexKey = "currentSkinIndexKey";
+
+    public Color32[] SkinColors;
+
+    public SkinColor()
+    {
+        SkinColors = new Color32[] {
+        new Color32(255,255,255,255),
+        new Color32(62, 223, 255,255),
+        new Color32(255,237,0,255),
+        new Color32(248,106,106,255),
+        new Color32(8,122,255,255)
+        };
+    }
+}
+
 public class LevelManager : MonoBehaviour
 {
     public GameObject[] otherMenus;
+    public SkinColor skinColorClass = new SkinColor();
 
     // A temporary menu object
     private GameObject menuTemp;
 
     private GameObject mainMenu;
     private GameObject backButton;
+    private GameObject callbackText;
 
-    //static private bool once = true;
+    public int callbackReward;
+
+    static private bool once = true;
+    static private bool isSkinLoaded = false;
 
     //public static GameObject instance = null;
 
@@ -33,13 +58,16 @@ public class LevelManager : MonoBehaviour
 
         //PlayerPrefs.DeleteAll();
         //PlayerPrefs.DeleteKey(Keys.enemyKilledKey);
-
-        Assets.SimpleAndroidNotifications.NotificationManager.CancelAll();
+        callbackReward = 10;
 
         mainMenu = GameObject.Find("Menu");
         backButton = GameObject.Find("Back");
+        callbackText = GameObject.Find("CallbackText");
 
         backButton.SetActive(false);
+
+        // Load current selected color for player's ship.
+        //FindObjectOfType<ShopManager>().LoadInitialColor();
 
         foreach (var menu in otherMenus)
         {
@@ -47,11 +75,28 @@ public class LevelManager : MonoBehaviour
         }
 
         Authenticate();
+        CheckNotifyCallBack();
     }
 
     private void Update()
     {
         Escape();
+    }
+
+    private void CheckNotifyCallBack()
+    {
+        if (FindObjectOfType<Test>().CheckCallBack() && once)
+        {
+            int currentScore = PlayerPrefs.GetInt(Keys.totalScoreKey);
+            PlayerPrefs.SetInt(Keys.totalScoreKey, currentScore + callbackReward);
+            StartCoroutine(Notify(callbackText, "Welcome back!\n" +
+                                "You have received: " + callbackReward + " gold"));
+            once = false;
+        }
+        else
+        {
+            callbackText.GetComponent<Text>().text = "";
+        }
     }
 
     //public void InitializeSingleton()
@@ -118,8 +163,16 @@ public class LevelManager : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Go to other scene, if it is MainGame Scene, load player skin color
+    /// </summary>
+    /// <param name="sceneName"></param>
     public void ChangeScene(string sceneName)
     {
+        if (sceneName == "MainGame" && !isSkinLoaded)
+        {
+            LoadInitialColor();
+        }
         SceneManager.LoadScene(sceneName);
     }
 
@@ -128,8 +181,6 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void Quit()
     {
-        Assets.SimpleAndroidNotifications.NotificationManager.
-            Send(TimeSpan.FromSeconds(10), "I miss you", "Long time no see. Please come back!", Color.blue);
         Application.Quit();
     }
 
@@ -164,17 +215,30 @@ public class LevelManager : MonoBehaviour
                 otherMenu.SetActive(true);
 
                 // Show achievement
-                if (menuName == "AchievementMenu")
-                {
-                    GetComponent<AchievementManager>().LoadAchievement();
-                }
+                //if (menuName == "AchievementMenu")
+                //{
+                //    GetComponent<AchievementManager>().LoadAchievement();
+                //}
 
-                // Show highScores
-                if(menuName == "HighScoreMenu")
+                //// Show highScores
+                //if (menuName == "HighScoreMenu")
+                //{
+                //    //GetComponent<LeaderboardManager>().ShowScore();
+
+                //    GetComponent<HighScore>().DisplayHighScores();
+                //}
+                switch (menuName)
                 {
-                    //GetComponent<LeaderboardManager>().ShowScore();
-                    
-                    GetComponent<HighScore>().DisplayHighScores();
+                    case "AchievementMenu":
+                        GetComponent<AchievementManager>().LoadAchievement();
+                        break;
+                    case "HighScoreMenu":
+                        GetComponent<HighScore>().DisplayHighScores();
+                        break;
+                    case "ShopMenu":
+                        isSkinLoaded = true;
+                        break;
+
                 }
                 break;
             }
@@ -217,5 +281,13 @@ public class LevelManager : MonoBehaviour
             noticeText.GetComponent<Text>().text = message;
             yield return new WaitForSeconds(0.15f);
         }
+    }
+
+    public void LoadInitialColor()
+    {
+        // Set skin color info.
+        int currentSkinIndex = PlayerPrefs.GetInt(SkinColor.currentSkinIndexKey);
+        SkinColor.playerSkinColor = skinColorClass.SkinColors[currentSkinIndex];
+        print(currentSkinIndex.ToString());
     }
 }

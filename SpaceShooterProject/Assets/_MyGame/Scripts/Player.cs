@@ -232,13 +232,9 @@ public class Player : MonoBehaviour
         if (bulletType < bullets.Length - 1)
         {
             bulletType++;
-            isBulletTypeUpdated = false;
+            //isBulletTypeUpdated = false;
+            UpdateBullet();
         }
-        else
-        {
-            isBulletTypeUpdated = true;
-        }
-        UpdateBullet();
     }
 
     /// <summary>
@@ -248,15 +244,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < poolingBullets.Count; i++)
         {
-            if (isBulletTypeUpdated)
-            {
-                poolingBullets[i].GetComponent<Bullet>().damage++;
-            }
-            else
-            {
-                poolingBullets[i] = bullets[bulletType];
-                //poolingBullets[i].GetComponent<ObjectPooling>().isActive = false;
-            }
+            poolingBullets[i] = bullets[bulletType];
         }
     }
 

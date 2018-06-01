@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class SkinColor
-{
-    static public Color playerSkinColor = Color.white;
-}
-
 public class ShopManager : MonoBehaviour
 {
     // Shopping variables
     public GameObject Player;
-    public Color[] SkinColors;
+    //public Color[] SkinColors;
     public int[] PricesArray;
+
+    SkinColor skinColorClass = new SkinColor();
 
     private string[] isBoughtKeys;
     private int[] isBoughtArray;
 
-    private string currentSkinIndexKey;
     public int currentSkinIndex;
 
     // Current selected color index
@@ -46,13 +41,11 @@ public class ShopManager : MonoBehaviour
         PricesArray = new int[] { 0, 50, 60, 70, 80 };
         isBoughtArray = new int[5];
 
-        currentSkinIndexKey = "skinIndex";
-
-        // Get player saved point
+        // Get player's saved point
         PlayerPoint = PlayerPrefs.GetInt(Keys.totalScoreKey);
 
         // Get current selected skin index
-        currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
+        currentSkinIndex = PlayerPrefs.GetInt(SkinColor.currentSkinIndexKey);
 
         currentSkinSelected = currentSkinIndex;
 
@@ -61,6 +54,17 @@ public class ShopManager : MonoBehaviour
 
         ShopBegin();
     }
+
+    //public void LoadInitialColor()
+    //{
+    //    // Get current selected skin index.
+    //    currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
+
+    //    currentSkinSelected = currentSkinIndex;
+        
+    //    // Set skin color info.
+    //    SkinColor.playerSkinColor = SkinColors[currentSkinIndex];
+    //}
 
     private void Update()
     {
@@ -83,10 +87,12 @@ public class ShopManager : MonoBehaviour
         noticeText = GameObject.Find("Notice");
 
         noticeText.SetActive(false);
+
+        // Set initial status of player's skin and UI texts
         SelectButtonClick();
 
-        // Change player skin color
-        Player.GetComponent<Renderer>().material.color = SkinColors[currentSkinIndex];
+        // Change player's skin color to current selected color
+        Player.GetComponent<Renderer>().material.color = skinColorClass.SkinColors[currentSkinIndex];
 
         GetBuyingInfo();
         UpdatePrice();
@@ -128,7 +134,7 @@ public class ShopManager : MonoBehaviour
     {
         noticeText.SetActive(false);
         // Change current skin index
-        if (currentSkinIndex < SkinColors.Length - 1)
+        if (currentSkinIndex < skinColorClass.SkinColors.Length - 1)
         {
             currentSkinIndex++;
         }
@@ -138,7 +144,7 @@ public class ShopManager : MonoBehaviour
         }
 
         // Change player skin color
-        Player.GetComponent<Renderer>().material.color = SkinColors[currentSkinIndex];
+        Player.GetComponent<Renderer>().material.color = skinColorClass.SkinColors[currentSkinIndex];
 
         // Change prices
         priceUI.text = "Price: " + PricesArray[currentSkinIndex];
@@ -177,7 +183,7 @@ public class ShopManager : MonoBehaviour
     public void SelectButtonClick()
     {
         // Set skin color info
-        SkinColor.playerSkinColor = SkinColors[currentSkinIndex];
+        SkinColor.playerSkinColor = skinColorClass.SkinColors[currentSkinIndex];
 
         currentSkinSelected = currentSkinIndex;
 
@@ -192,6 +198,7 @@ public class ShopManager : MonoBehaviour
         if (PlayerPoint >= PricesArray[currentSkinIndex])
         {
             PlayerPoint -= PricesArray[currentSkinIndex];
+            priceUI.text = "Price: 0";
             PricesArray[currentSkinIndex] = 0;
 
             // Define that this skin was bought
@@ -204,6 +211,9 @@ public class ShopManager : MonoBehaviour
 
             // Set point to point UI text
             TotalPointUI.text = "Your point: " + PlayerPoint.ToString();
+
+            // Select recent bought skin
+            SelectButtonClick();
         }
         else
         {
@@ -223,7 +233,7 @@ public class ShopManager : MonoBehaviour
         }
 
         // Save current skin index
-        PlayerPrefs.SetInt(currentSkinIndexKey, currentSkinSelected);
+        PlayerPrefs.SetInt(SkinColor.currentSkinIndexKey, currentSkinSelected);
 
         print("Code run");
     }

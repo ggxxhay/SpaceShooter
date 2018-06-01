@@ -281,7 +281,7 @@
     <Compile Include="Assets\_MyGame\Scripts\Score.cs" />
     <Compile Include="Assets\_MyGame\Scripts\Setting.cs" />
     <Compile Include="Assets\_MyGame\Scripts\ShopManager.cs" />
-    <Compile Include="Assets\Drag.cs" />
+    <Compile Include="Assets\_MyGame\Scripts\Test.cs" />
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\ConsoleBase.cs" />
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\LogView.cs" />
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\MenuBase.cs" />
@@ -294,18 +294,12 @@
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\GraphRequest.cs" />
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\MainMenu.cs" />
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\Pay.cs" />
-    <Compile Include="Assets\SimpleAndroidNotifications\NotificationExample.cs" />
-    <Compile Include="Assets\SimpleAndroidNotifications\NotificationIcon.cs" />
-    <Compile Include="Assets\SimpleAndroidNotifications\NotificationManager.cs" />
-    <Compile Include="Assets\SimpleAndroidNotifications\NotificationParams.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\FacebookSDK\link.xml" />
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.69.0.txt" />
     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
-    <None Include="Assets\Plugins\Android\Firebase\AndroidManifest.xml" />
-    <None Include="Assets\Plugins\Android\Firebase\res\values\google-services.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
