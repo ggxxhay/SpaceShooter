@@ -11,7 +11,7 @@ public class Asteroid : MonoBehaviour {
     /// Rotate the asteroid while moving
     /// </summary>
 	void Start () {
-        // Let the asteroid turn around
+        // Let the asteroid turn around while moving
         GetComponent<Rigidbody>().angularVelocity = Random.insideUnitSphere * tumble;
 	}
 }

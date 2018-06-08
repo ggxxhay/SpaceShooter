@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
 
     // Current bullet type index
     public int bulletType;
-    private bool isBulletTypeUpdated;
 
     // Variables used to move with mouse drag
     private Vector3 screenPoint;
@@ -50,7 +49,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         isTouched = false;
-        isBulletTypeUpdated = true;
 
         poolingBullets = new List<GameObject>();
 
@@ -66,7 +64,6 @@ public class Player : MonoBehaviour
         if (Input.touchCount <= 0)
         {
             isTouched = false;
-            //offset = new Vector3(0, 0, 0);
         }
         //OnMouseDown();
         //OnMouseDrag();
@@ -151,6 +148,7 @@ public class Player : MonoBehaviour
             // Get the first touch
             Touch touch = Input.GetTouch(0);
 
+            // Get offset from player position to touch position when user touch the screen
             if (!isTouched)
             {
                 // The original position that player touch the screen

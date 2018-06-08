@@ -8,35 +8,23 @@ using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Leaderboard
-{
-    static public ILeaderboard leaderboard;
-}
-
-[System.Serializable]
 public class SkinColor
 {
-    static public Color32 playerSkinColor = new Color32(255,255,255,255);
+    static public Color32 playerSkinColor = new Color32(255, 255, 255, 255);
     static public string currentSkinIndexKey = "currentSkinIndexKey";
 
-    public Color32[] SkinColors;
-
-    public SkinColor()
-    {
-        SkinColors = new Color32[] {
-        new Color32(255,255,255,255),
-        new Color32(62, 223, 255,255),
-        new Color32(255,237,0,255),
-        new Color32(248,106,106,255),
-        new Color32(8,122,255,255)
-        };
-    }
+    static public Color32[] SkinColors 
+        = new Color32[] {new Color32(255,255,255,255),
+                        new Color32(62, 223, 255,255),
+                        new Color32(255,237,0,255),
+                        new Color32(248,106,106,255),
+                        new Color32(8,122,255,255)
+                        };
 }
 
 public class LevelManager : MonoBehaviour
 {
     public GameObject[] otherMenus;
-    public SkinColor skinColorClass = new SkinColor();
 
     // A temporary menu object
     private GameObject menuTemp;
@@ -199,7 +187,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Change menu when a menu is clicked
+    /// Change from main menu to other menu when it is selected
     /// </summary>
     /// <param name="menuName"></param>
     public void ChangeMenu(string menuName)
@@ -213,20 +201,6 @@ public class LevelManager : MonoBehaviour
             {
                 menuTemp = otherMenu;
                 otherMenu.SetActive(true);
-
-                // Show achievement
-                //if (menuName == "AchievementMenu")
-                //{
-                //    GetComponent<AchievementManager>().LoadAchievement();
-                //}
-
-                //// Show highScores
-                //if (menuName == "HighScoreMenu")
-                //{
-                //    //GetComponent<LeaderboardManager>().ShowScore();
-
-                //    GetComponent<HighScore>().DisplayHighScores();
-                //}
                 switch (menuName)
                 {
                     case "AchievementMenu":
@@ -287,7 +261,7 @@ public class LevelManager : MonoBehaviour
     {
         // Set skin color info.
         int currentSkinIndex = PlayerPrefs.GetInt(SkinColor.currentSkinIndexKey);
-        SkinColor.playerSkinColor = skinColorClass.SkinColors[currentSkinIndex];
+        SkinColor.playerSkinColor = SkinColor.SkinColors[currentSkinIndex];
         print(currentSkinIndex.ToString());
     }
 }

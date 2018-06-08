@@ -60,7 +60,14 @@ public class DestroyByContact : MonoBehaviour
     /// </summary>
     private void CreateGift()
     {
-        // Create gift for player
+        int bulletType = FindObjectOfType<Player>().bulletType;
+        int bulletsLength = FindObjectOfType<Player>().bullets.Length;
+        // If player is having the strongest bullet type, gift will not be created.
+        if (bulletType >= bulletsLength - 1)
+        {
+            return;
+        }
+        // Create gift for player.
         if (gameObject.tag == "Boss" || Random.Range(1, 5) == 1)
         {
             FindObjectOfType<GameController>().SpawnPoolingObject(transform.position, Quaternion.Euler(90, 0, 0), 
@@ -89,26 +96,24 @@ public class DestroyByContact : MonoBehaviour
             // Create Explosion
             Instantiate(explosion, transform.position, transform.rotation);
 
+            // Remove the enemy game object
             FindObjectOfType<GameController>().RemovePoolingObject(gameObject);
 
             // Count on enemy killed
             enemyKilled++;
             PlayerPrefs.SetInt(Keys.enemyKilledKey, enemyKilled);
-
-            if (enemyKilled == 1)
+            
+            switch (enemyKilled)
             {
-                FindObjectOfType<GameController>().ReportAchievement("Achievement01");
-                return;
-            }
-            if (enemyKilled == 10)
-            {
-                FindObjectOfType<GameController>().ReportAchievement("Achievement02");
-                return;
-            }
-            if (enemyKilled == 100)
-            {
-                FindObjectOfType<GameController>().ReportAchievement("Achievement03");
-                return;
+                case 1:
+                    FindObjectOfType<GameController>().ReportAchievement("Achievement01");
+                    return;
+                case 10:
+                    FindObjectOfType<GameController>().ReportAchievement("Achievement02");
+                    return;
+                case 100:
+                    FindObjectOfType<GameController>().ReportAchievement("Achievement03");
+                    return;
             }
         }
     }

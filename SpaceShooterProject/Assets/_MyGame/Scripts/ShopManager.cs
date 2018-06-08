@@ -10,8 +10,6 @@ public class ShopManager : MonoBehaviour
     //public Color[] SkinColors;
     public int[] PricesArray;
 
-    SkinColor skinColorClass = new SkinColor();
-
     private string[] isBoughtKeys;
     private int[] isBoughtArray;
 
@@ -55,17 +53,6 @@ public class ShopManager : MonoBehaviour
         ShopBegin();
     }
 
-    //public void LoadInitialColor()
-    //{
-    //    // Get current selected skin index.
-    //    currentSkinIndex = PlayerPrefs.GetInt(currentSkinIndexKey);
-
-    //    currentSkinSelected = currentSkinIndex;
-        
-    //    // Set skin color info.
-    //    SkinColor.playerSkinColor = SkinColors[currentSkinIndex];
-    //}
-
     private void Update()
     {
         // Update variable for Shop menu.
@@ -92,7 +79,7 @@ public class ShopManager : MonoBehaviour
         SelectButtonClick();
 
         // Change player's skin color to current selected color
-        Player.GetComponent<Renderer>().material.color = skinColorClass.SkinColors[currentSkinIndex];
+        Player.GetComponent<Renderer>().material.color = SkinColor.SkinColors[currentSkinIndex];
 
         GetBuyingInfo();
         UpdatePrice();
@@ -134,7 +121,7 @@ public class ShopManager : MonoBehaviour
     {
         noticeText.SetActive(false);
         // Change current skin index
-        if (currentSkinIndex < skinColorClass.SkinColors.Length - 1)
+        if (currentSkinIndex < SkinColor.SkinColors.Length - 1)
         {
             currentSkinIndex++;
         }
@@ -144,7 +131,7 @@ public class ShopManager : MonoBehaviour
         }
 
         // Change player skin color
-        Player.GetComponent<Renderer>().material.color = skinColorClass.SkinColors[currentSkinIndex];
+        Player.GetComponent<Renderer>().material.color = SkinColor.SkinColors[currentSkinIndex];
 
         // Change prices
         priceUI.text = "Price: " + PricesArray[currentSkinIndex];
@@ -183,7 +170,7 @@ public class ShopManager : MonoBehaviour
     public void SelectButtonClick()
     {
         // Set skin color info
-        SkinColor.playerSkinColor = skinColorClass.SkinColors[currentSkinIndex];
+        SkinColor.playerSkinColor = SkinColor.SkinColors[currentSkinIndex];
 
         currentSkinSelected = currentSkinIndex;
 
@@ -234,7 +221,5 @@ public class ShopManager : MonoBehaviour
 
         // Save current skin index
         PlayerPrefs.SetInt(SkinColor.currentSkinIndexKey, currentSkinSelected);
-
-        print("Code run");
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Facebook.Unity;
 using System;
 
+
 public class FacebookManager : MonoBehaviour {
 
     private void Awake()
